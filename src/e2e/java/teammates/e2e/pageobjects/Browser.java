@@ -12,17 +12,20 @@ import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.ProfilesIni;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
@@ -210,25 +213,23 @@ public class Browser {
             String[] settings = System.getenv("SAUCELABS_SETTINGS").split("; ");
             String browserName = settings[0];
 
-            DesiredCapabilities caps;
+            MutableCapabilities browserOpts;
             switch (browserName) {
             case "firefox":
-                caps = DesiredCapabilities.firefox();
+                browserOpts = new FirefoxOptions();
                 break;
             case "chrome":
-                caps = DesiredCapabilities.chrome();
+                browserOpts = new ChromeOptions();
+                ((ChromeOptions) browserOpts).setExperimentalOption("w3c", true);
                 break;
             case "edge":
-                caps = DesiredCapabilities.edge();
+                browserOpts = new EdgeOptions();
                 break;
             case "safari":
-                caps = DesiredCapabilities.safari();
+                browserOpts = new SafariOptions();
                 break;
             case "ie":
-                caps = DesiredCapabilities.internetExplorer();
-                break;
-            case "opera":
-                caps = DesiredCapabilities.operaBlink();
+                browserOpts = new InternetExplorerOptions();
                 break;
             default:
                 throw new RuntimeException("Using " + browserName + " is not supported!");
@@ -238,19 +239,24 @@ public class Browser {
             String os = settings[2];
             String tunnelId = System.getenv("TUNNEL_ID");
             String buildId = System.getenv("BUILD_ID");
+            String username = System.getenv("SAUCE_USERNAME");
+            String accessKey = System.getenv("SAUCE_ACCESS_KEY");
 
-            caps.setCapability("version", browserVersion);
-            caps.setCapability("platform", os);
-            caps.setCapability("tunnel-identifier", tunnelId);
-            caps.setCapability("build", buildId);
-            caps.setCapability("name", buildId + " - " + name);
+            MutableCapabilities sauceOpts = new MutableCapabilities();
+            sauceOpts.setCapability("username", username);
+            sauceOpts.setCapability("accessKey", accessKey);
+            sauceOpts.setCapability("tunnelIdentifier", tunnelId);
+            sauceOpts.setCapability("build", buildId);
+            sauceOpts.setCapability("name", buildId + " - " + name);
+            sauceOpts.setCapability("seleniumVersion", "3.141.59");
+
+            browserOpts.setCapability("browserVersion", browserVersion);
+            browserOpts.setCapability("platformName", os);
+            browserOpts.setCapability("sauce:options", sauceOpts);
 
             try {
-                String username = System.getenv("SAUCE_USERNAME");
-                String accessKey = System.getenv("SAUCE_ACCESS_KEY");
-                String url = "https://" + username + ":" + accessKey + "@ondemand.saucelabs.com:443/wd/hub";
-
-                RemoteWebDriver rwd = new RemoteWebDriver(new URL(url), caps);
+                URL url = new URL("https://ondemand.saucelabs.com:443/wd/hub");
+                RemoteWebDriver rwd = new RemoteWebDriver(url, browserOpts);
                 rwd.setFileDetector(new LocalFileDetector());
                 return rwd;
             } catch (MalformedURLException e) {
