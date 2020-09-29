@@ -6,7 +6,6 @@ import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -16,8 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -85,10 +82,6 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
 
-    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
-        return studentsDb.getStudentsForSection(sectionName, courseId);
-    }
-
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
@@ -107,26 +100,11 @@ public final class StudentsLogic {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }
 
-    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-
-        return StringHelper.encrypt(studentData.key);
-    }
-
     public boolean isStudentInAnyCourse(String googleId) {
         return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
     }
 
-    public boolean isStudentInCourse(String courseId, String studentEmail) {
-        return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
-    }
-
-    public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
+    boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
 
         StudentAttributes student = getStudentForEmail(courseId, studentEmail);
         if (student == null) {
@@ -247,25 +225,6 @@ public final class StudentsLogic {
 
     }
 
-    /**
-     * Validates teams for any team name violations.
-     */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
-
-        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
-
-        if (mergedList.size() < 2) { // no conflicts
-            return;
-        }
-
-        String errorMessage = getTeamInvalidityInfo(mergedList);
-
-        if (errorMessage.length() > 0) {
-            throw new EnrollException(errorMessage);
-        }
-
-    }
-
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
         List<StudentAttributes> mergedList = new ArrayList<>();
@@ -345,8 +304,8 @@ public final class StudentsLogic {
 
                 errorMessage.add(String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME,
                         currentStudent.team,
-                        SanitizationHelper.sanitizeForHtml(previousStudent.section),
-                        SanitizationHelper.sanitizeForHtml(currentStudent.section)));
+                        previousStudent.section,
+                        currentStudent.section));
 
                 invalidTeamList.add(currentStudent.team);
             }
@@ -432,17 +391,6 @@ public final class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
-    }
-
-    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {
-        if (student != null) {
-            TeamDetailsBundle teamResult = new TeamDetailsBundle();
-            teamResult.name = student.team;
-            teamResult.students = getStudentsForTeam(student.team, student.course);
-            StudentAttributes.sortByNameAndThenByEmail(teamResult.students);
-            return teamResult;
-        }
-        return null;
     }
 
 }

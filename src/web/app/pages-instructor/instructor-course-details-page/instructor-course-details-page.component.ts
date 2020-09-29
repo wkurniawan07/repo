@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { ClipboardService } from 'ngx-clipboard';
+import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
   Instructor,
@@ -18,6 +20,9 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -56,18 +61,23 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   };
   instructors: Instructor[] = [];
   students: StudentListRowModel[] = [];
-  courseStudentListAsCsv: string = '';
 
-  loading: boolean = false;
-  isAjaxSuccess: boolean = true;
+  isLoadingCsv: boolean = false;
+  isStudentsLoading: boolean = false;
+  hasLoadingStudentsFailed: boolean = false;
+
+  studentSortBy: SortBy = SortBy.NONE;
+  studentSortOrder: SortOrder = SortOrder.ASC;
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private clipboardService: ClipboardService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private ngbModal: NgbModal, private navigationService: NavigationService,
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService,
+              private navigationService: NavigationService,
               private studentService: StudentService,
-              private instructorService: InstructorService) { }
+              private instructorService: InstructorService,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -110,7 +120,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads the students in the course
    */
-  private loadStudents(courseid: string): void {
+  loadStudents(courseid: string): void {
+    this.hasLoadingStudentsFailed = false;
+    this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -131,8 +143,14 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
         this.loadPrivilege(courseid, key, data);
       });
+
+      if (!sections.length) {
+        this.isStudentsLoading = false;
+      }
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
+      this.isStudentsLoading = false;
+      this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -144,25 +162,21 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.instructorService.loadInstructorPrivilege({
       sectionName,
       courseId: courseid,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      students.forEach((studentModel: StudentListRowModel) => {
-        if (studentModel.student.sectionName === sectionName) {
-          studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-          studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
-        }
-      });
-
-      this.students.push(...students);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
-  }
-
-  /**
-   * Automatically copy the text content provided.
-   */
-  copyContent(text: string): void {
-    this.clipboardService.copyFromContent(text);
+    })
+        .pipe(finalize(() => this.isStudentsLoading = false))
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          students.forEach((studentModel: StudentListRowModel) => {
+            if (studentModel.student.sectionName === sectionName) {
+              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            }
+          });
+          this.students.push(...students);
+          this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
+        }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingStudentsFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -170,6 +184,23 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   openModal(content: any): void {
     this.ngbModal.open(content);
+  }
+
+  openRemindStudentModal(): void {
+    const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
+      time of each session. Send a join request to all yet-to-join students in ${ this.courseDetails.course.courseId } anyway?`;
+    this.simpleModalService.openConfirmationModal(
+        'Sending join requests?', SimpleModalType.INFO, modalContent).result.then(() => {
+          this.remindAllStudentsFromCourse(this.courseDetails.course.courseId);
+        }, () => {});
+  }
+
+  openDeleteAllStudentsModal(): void {
+    const modalContent: string = `Are you sure you want to remove all students from the course ${ this.courseDetails.course.courseId }?`;
+    this.simpleModalService.openConfirmationModal(
+        'Delete all students?', SimpleModalType.DANGER, modalContent).result.then(() => {
+          this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId);
+        }, () => {});
   }
 
   /**
@@ -195,46 +226,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Download all the students from a course.
    */
   downloadAllStudentsFromCourse(courseId: string): void {
+    this.isLoadingCsv = true;
     const filename: string = `${courseId.concat('_studentList')}.csv`;
     let blob: any;
 
-    // Calling REST API only the first time to load the downloadable data
-    if (this.loading) {
-      blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
-      saveAs(blob, filename);
-    } else {
-      this.studentService.loadStudentListAsCsv({ courseId })
-        .subscribe((resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-          this.courseStudentListAsCsv = resp;
-          this.loading = false;
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-    }
-  }
-
-  /**
-   * Load the student list in csv table format
-   */
-  loadStudentsListCsv(courseId: string): void {
-    this.loading = true;
-
-    // Calls the REST API once only when student list is not loaded
-    if (this.courseStudentListAsCsv !== '') {
-      this.loading = false;
-      return;
-    }
-
     this.studentService.loadStudentListAsCsv({ courseId })
+      .pipe(finalize(() => this.isLoadingCsv = false))
       .subscribe((resp: string) => {
-        this.courseStudentListAsCsv = resp;
+        blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isAjaxSuccess = false;
       });
-    this.loading = false;
   }
 
   /**
@@ -247,31 +250,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  /**
-   * Converts a csv string to a html table string for displaying.
-   */
-  convertToHtmlTable(str: string): string {
-    let result: string = '<table class=\"table table-bordered table-striped table-sm\">';
-    let rowData: string[];
-    const lines: string[] = str.split(/\r?\n/);
-
-    lines.forEach(
-        (line: string) => {
-          rowData = this.getTableData(line);
-
-          if (rowData.filter((s: string) => s !== '').length === 0) {
-            return;
-          }
-          result = result.concat('<tr>');
-          for (const td of rowData) {
-            result = result.concat(`<td>${td}</td>`);
-          }
-          result = result.concat('</tr>');
-        },
-    );
-    return result.concat('</table>');
   }
 
   /**
@@ -325,5 +303,63 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  /**
+   * Sorts the student list.
+   */
+  sortStudentList(by: SortBy): void {
+    this.studentSortBy = by;
+    this.studentSortOrder =
+      this.studentSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.students.sort(this.sortStudentBy(by, this.studentSortOrder));
+  }
+
+  /**
+   * Returns a function to determine the order of sort for students.
+   */
+  sortStudentBy(by: SortBy, order: SortOrder):
+    ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
+    if (by === SortBy.NONE) {
+      // Default order: section name > team name > student name
+      return ((a: StudentListRowModel, b: StudentListRowModel): number => {
+        return this.tableComparatorService
+            .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
+          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, order, a.student.name, b.student.name);
+      });
+    }
+    return (a: StudentListRowModel, b: StudentListRowModel): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.SECTION_NAME:
+          strA = a.student.sectionName;
+          strB = b.student.sectionName;
+          break;
+        case SortBy.RESPONDENT_NAME:
+          strA = a.student.name;
+          strB = b.student.name;
+          break;
+        case SortBy.TEAM_NAME:
+          strA = a.student.teamName;
+          strB = b.student.teamName;
+          break;
+        case SortBy.RESPONDENT_EMAIL:
+          strA = a.student.email;
+          strB = b.student.email;
+          break;
+        case SortBy.JOIN_STATUS:
+          strA = joinStatePipe.transform(a.student.joinState);
+          strB = joinStatePipe.transform(b.student.joinState);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    };
   }
 }

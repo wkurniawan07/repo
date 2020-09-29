@@ -1,17 +1,12 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
     public static final transient int MIN_NUM_OF_OPTIONS = 2;
@@ -29,96 +24,12 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
             "Empty Rank Options are not allowed";
 
-    List<String> options;
+    private List<String> options;
 
     public FeedbackRankOptionsQuestionDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
 
         this.options = new ArrayList<>();
-    }
-
-    @Override
-    public List<String> getInstructions() {
-        List<String> instructions = new ArrayList<>();
-
-        if (minOptionsToBeRanked != NO_VALUE) {
-            instructions.add("You need to rank at least " + minOptionsToBeRanked + " options.");
-        }
-
-        if (maxOptionsToBeRanked != NO_VALUE) {
-            instructions.add("Rank no more than " + maxOptionsToBeRanked + " options.");
-        }
-
-        return instructions;
-    }
-
-    @Override
-    public String getQuestionTypeDisplayName() {
-        return Const.FeedbackQuestionTypeNames.RANK_OPTION;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-                        List<FeedbackResponseAttributes> responses,
-                        FeedbackQuestionAttributes question,
-                        FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder fragments = new StringBuilder();
-        Map<String, List<Integer>> optionRanks = generateOptionRanksMapping(responses);
-
-        Map<String, Integer> optionOverallRank = generateNormalizedOverallRankMapping(optionRanks);
-
-        optionRanks.forEach((key, ranksAssigned) -> {
-            String option = SanitizationHelper.sanitizeForCsv(key);
-            String overallRank = Integer.toString(optionOverallRank.get(key));
-
-            String fragment = option + "," + overallRank + ","
-                    + StringHelper.join(",", ranksAssigned) + System.lineSeparator();
-            fragments.append(fragment);
-        });
-
-        return "Option, Overall Rank, Ranks Received" + System.lineSeparator()
-                + fragments.toString() + System.lineSeparator();
-    }
-
-    /**
-     * From the feedback responses, generate a mapping of the option to a list of
-     * ranks received for that option.
-     * The key of the map returned is the option name.
-     * The values of the map are list of ranks received by the key.
-     * @param responses  a list of responses
-     */
-    private Map<String, List<Integer>> generateOptionRanksMapping(
-                                            List<FeedbackResponseAttributes> responses) {
-        Map<String, List<Integer>> optionRanks = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackRankOptionsResponseDetails frd = (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
-
-            List<Integer> answers = frd.getAnswerList();
-            Map<String, Integer> mapOfOptionToRank = new HashMap<>();
-
-            Assumption.assertEquals(answers.size(), options.size());
-
-            for (int i = 0; i < options.size(); i++) {
-                int rankReceived = answers.get(i);
-                mapOfOptionToRank.put(options.get(i), rankReceived);
-            }
-
-            Map<String, Integer> normalisedRankForOption =
-                    obtainMappingToNormalisedRanksForRanking(mapOfOptionToRank, options);
-
-            for (String optionReceivingRanks : options) {
-                int rankReceived = normalisedRankForOption.get(optionReceivingRanks);
-
-                if (rankReceived != Const.POINTS_NOT_SUBMITTED) {
-                    updateOptionRanksMapping(optionRanks, optionReceivingRanks, rankReceived);
-                }
-            }
-        }
-        return optionRanks;
     }
 
     @Override
@@ -130,17 +41,6 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             || !newRankQuestionDetails.options.containsAll(this.options)
             || this.minOptionsToBeRanked != newRankQuestionDetails.minOptionsToBeRanked
             || this.maxOptionsToBeRanked != newRankQuestionDetails.maxOptionsToBeRanked;
-    }
-
-    @Override
-    public String getCsvHeader() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < this.options.size(); i++) {
-            result.append(String.format("Rank %d,", i + 1));
-        }
-        result.deleteCharAt(result.length() - 1); // remove the last comma
-
-        return result.toString();
     }
 
     @Override
@@ -186,6 +86,41 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors = new ArrayList<>();
+
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackRankOptionsResponseDetails details = (FeedbackRankOptionsResponseDetails) response;
+            List<Integer> filteredAnswers = details.getFilteredSortedAnswerList();
+            Set<Integer> set = new HashSet<>(filteredAnswers);
+            boolean isAnswerContainsDuplicates = set.size() < filteredAnswers.size();
+
+            // if duplicate ranks are not allowed but have been assigned trigger this error
+            if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
+                errors.add("Duplicate Ranks are not allowed.");
+            }
+            // if number of options ranked is less than the minimum required trigger this error
+            if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
+                errors.add("You must rank at least " + minOptionsToBeRanked + " options.");
+            }
+            // if number of options ranked is more than the maximum possible trigger this error
+            if (isMaxOptionsEnabled && filteredAnswers.size() > maxOptionsToBeRanked) {
+                errors.add("You can rank at most " + maxOptionsToBeRanked + " options.");
+            }
+            // if rank assigned is invalid trigger this error
+            boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
+            if (isRankInvalid) {
+                errors.add("Invalid rank assigned.");
+            }
+        }
+
+        return errors;
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
@@ -193,5 +128,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 }

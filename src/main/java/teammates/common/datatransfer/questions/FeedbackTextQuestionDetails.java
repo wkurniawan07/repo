@@ -3,41 +3,24 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Const;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
-    private int recommendedLength;
+    @Nullable
+    private Integer recommendedLength;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
-        recommendedLength = 0;
+        recommendedLength = null;
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
-        recommendedLength = 0;
-    }
-
-    public int getRecommendedLength() {
-        return recommendedLength;
-    }
-
-    public void setRecommendedLength(int recommendedLength) {
-        this.recommendedLength = recommendedLength;
-    }
-
-    @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
-    @Override
-    public String getQuestionTypeDisplayName() {
-        return Const.FeedbackQuestionTypeNames.TEXT;
+        recommendedLength = null;
     }
 
     @Override
@@ -46,25 +29,17 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        return "";
-    }
-
-    @Override
-    public String getCsvHeader() {
-        return "Feedback";
-    }
-
-    @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (recommendedLength < 0) {
+        if (recommendedLength != null && recommendedLength < 1) {
             errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
         }
         return errors;
+    }
+
+    @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        return new ArrayList<>();
     }
 
     @Override
@@ -75,5 +50,13 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public Integer getRecommendedLength() {
+        return recommendedLength;
+    }
+
+    public void setRecommendedLength(Integer recommendedLength) {
+        this.recommendedLength = recommendedLength;
     }
 }

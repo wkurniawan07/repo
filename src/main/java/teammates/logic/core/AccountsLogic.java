@@ -46,7 +46,7 @@ public final class AccountsLogic {
      * @throws InvalidParametersException if the account is not valid
      * @throws EntityAlreadyExistsException if the account already exists in the Datastore.
      */
-    public AccountAttributes createAccount(AccountAttributes accountData)
+    AccountAttributes createAccount(AccountAttributes accountData)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsDb.createEntity(accountData);
     }
@@ -55,16 +55,12 @@ public final class AccountsLogic {
         return accountsDb.getAccount(googleId);
     }
 
-    public boolean isAccountPresent(String googleId) {
-        return accountsDb.getAccount(googleId) != null;
-    }
-
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor;
     }
 
-    public String getCourseInstitute(String courseId) {
+    private String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
         Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
@@ -248,7 +244,7 @@ public final class AccountsLogic {
     /**
      * Makes an account as an instructor account.
      */
-    public void makeAccountInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
+    void makeAccountInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
         accountsDb.updateAccount(
                 AccountAttributes.updateOptionsBuilder(googleId)
                         .withIsInstructor(true)

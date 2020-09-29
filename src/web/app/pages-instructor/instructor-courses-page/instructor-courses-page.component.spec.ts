@@ -1,12 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
-
-@Component({ selector: 'tm-add-course-form', template: '' })
-class AddCourseFormStubComponent {}
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
@@ -106,12 +108,17 @@ describe('InstructorCoursesPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorCoursesPageComponent,
-        AddCourseFormStubComponent,
       ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
         NgbModule,
+        BrowserAnimationsModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
+        AddCourseFormModule,
+        LoadingRetryModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();
@@ -136,6 +143,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.archivedCourses = archivedCourses;
     component.softDeletedCourses = deletedCourses;
     component.courseStats = courseStats;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -147,12 +155,20 @@ describe('InstructorCoursesPageComponent', () => {
     component.courseStats = courseStats;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no courses in course stats', () => {
     component.activeCourses = activeCourses;
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    component.isLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

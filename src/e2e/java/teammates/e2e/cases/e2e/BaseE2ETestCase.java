@@ -2,6 +2,9 @@ package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.ITestContext;
@@ -11,15 +14,18 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
+import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.test.FileHelper;
 
 /**
  * Base class for all browser tests.
@@ -39,7 +45,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     protected void prepareBrowser() {
-        browser = BrowserPool.getBrowser(getClass().getSimpleName());
+        browser = new Browser(getClass().getSimpleName());
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -49,9 +55,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    @AfterClass(alwaysRun = true)
+    protected String getTestDownloadsFolder() {
+        return TestProperties.TEST_DOWNLOADS_FOLDER;
+    }
+
+    @AfterClass
     public void baseClassTearDown(ITestContext context) {
-        releaseBrowser(context.getFailedTests().size() == 0);
+        boolean isSuccess = context.getFailedTests().getAllMethods()
+                .stream()
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
+        releaseBrowser(isSuccess);
     }
 
     protected void releaseBrowser(boolean isSuccess) {
@@ -60,8 +73,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
         if (TestProperties.BROWSER_SAUCELABS.equals(TestProperties.BROWSER)) {
             ((JavascriptExecutor) browser.driver).executeScript("sauce:job-result=" + (isSuccess ? "passed" : "failed"));
+            browser.driver.close();
+        } else {
+            if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
+                browser.driver.close();
+            }
         }
-        BrowserPool.release(browser);
     }
 
     /**
@@ -87,19 +104,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
+        // When not using dev server, Google blocks log in by automation.
+        // To log in, log in manually to teammates in your browser before running e2e tests.
+        // Refer to teammates.e2e.pageobjects.Browser for more information.
+        if (!TestProperties.isDevServer()) {
+            // skip login and navigate to the desired page.
+            return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        }
 
         if (browser.isAdminLoggedIn) {
-            browser.driver.get(url.toAbsoluteString());
             try {
-                return AppPage.getNewPageInstance(browser, typeOfPage);
+                return AppPage.getNewPageInstance(browser, url, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
-                ignorePossibleException();
             }
         }
 
         // logout and attempt to load the requested URL. This will be
-        // redirected to a dev-server/google login page
+        // redirected to a dev-server login page
         logout();
         browser.driver.get(url.toAbsoluteString());
 
@@ -108,27 +130,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
         String userId = url.get(Const.ParamsNames.USER_ID);
 
-        if (TestProperties.isDevServer() && userId != null) {
+        if (userId != null) {
             // This workaround is necessary because the front-end has not been optimized
             // to enable masquerade mode yet
             adminUsername = userId;
         }
 
-        // login based on the login page type
-        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        LoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
         loginPage.loginAsAdmin(adminUsername, adminPassword);
 
-        // After login, the browser should be redirected to the page requested originally.
-        // No need to reload. In fact, reloading might results in duplicate request to the server.
-        return AppPage.getNewPageInstance(browser, typeOfPage);
-    }
-
-    /**
-     * TODO legacy method to be removed after migration of UI tests.
-     */
-    @Deprecated
-    protected <T extends teammates.test.pageobjects.AppPage> T loginAdminToPageOld(AppUrl url, Class<T> typeOfPage) {
-        return teammates.test.pageobjects.AppPage.getNewPageInstance(browser, typeOfPage);
+        return AppPage.getNewPageInstance(browser, url, typeOfPage);
     }
 
     /**
@@ -152,6 +163,63 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     protected AdminHomePage loginAdmin() {
         return loginAdminToPage(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+    }
+
+    /**
+     * Deletes file with fileName from the downloads folder.
+     */
+    protected void deleteDownloadsFile(String fileName) {
+        String filePath = getTestDownloadsFolder() + fileName;
+        FileHelper.deleteFile(filePath);
+    }
+
+    /**
+     * Verifies downloaded file has correct fileName and contains expected content.
+     */
+    protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
+        String filePath = getTestDownloadsFolder() + expectedFileName;
+        int retryLimit = 5;
+        boolean actual = Files.exists(Paths.get(filePath));
+        while (!actual && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = Files.exists(Paths.get(filePath));
+        }
+        assertTrue(actual);
+
+        try {
+            String actualContent = FileHelper.readFile(filePath);
+            for (String content : expectedContent) {
+                assertTrue(actualContent.contains(content));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Verifies that email with subject is found in inbox.
+     * Email used must be an authentic gmail account.
+     */
+    protected void verifyEmailSent(String email, String subject) {
+        if (TestProperties.isDevServer()) {
+            return;
+        }
+        EmailAccount emailAccount = new EmailAccount(email);
+        try {
+            emailAccount.getUserAuthenticated();
+            int retryLimit = 5;
+            boolean actual = emailAccount.isEmailWithSubjectPresent(subject);
+            while (!actual && retryLimit > 0) {
+                retryLimit--;
+                ThreadHelper.waitFor(1000);
+                actual = emailAccount.isEmailWithSubjectPresent(subject);
+            }
+            emailAccount.markAllUnreadEmailAsRead();
+            assertTrue(actual);
+        } catch (Exception e) {
+            fail("Failed to verify email sent:" + e);
+        }
     }
 
 }

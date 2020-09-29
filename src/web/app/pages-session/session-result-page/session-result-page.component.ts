@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import moment from 'moment-timezone';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -17,6 +18,8 @@ import {
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
+import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -52,6 +55,11 @@ export class SessionResultPageComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+  loggedInUser: string = '';
+
+  isFeedbackSessionResultsLoading: boolean = false;
+  hasFeedbackSessionResultsLoadingFailed: boolean = false;
+  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -62,7 +70,8 @@ export class SessionResultPageComponent implements OnInit {
               private navigationService: NavigationService,
               private authService: AuthService,
               private studentService: StudentService,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService,
+              private ngbModal: NgbModal) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -74,24 +83,35 @@ export class SessionResultPageComponent implements OnInit {
 
       const nextUrl: string = `${window.location.pathname}${window.location.search}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        if (auth.user) {
+          this.loggedInUser = auth.user.id;
+        }
         if (this.regKey) {
           const intent: Intent = Intent.STUDENT_RESULT;
           this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isValid) {
-              if (auth.user) {
+            if (resp.isAllowedAccess) {
+              if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/submission',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
-                // There is no logged in user for valid, unused registration key; load information based on the key
+                // Valid, unused registration key; load information based on the key
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
-            } else if (!auth.user) {
-              // If there is no logged in user for a valid, used registration key, redirect to login page
-              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else if (resp.isValid) {
+              // At this point, registration key must already be used, otherwise access would be granted
+              if (this.loggedInUser) {
+                // Registration key belongs to another user who is not the logged in user
+                this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                    'You are not authorized to view this page.');
+              } else {
+                // There is no logged in user for a valid, used registration key, redirect to login page
+                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+              }
             } else {
+              // The registration key is invalid
               this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                   'You are not authorized to view this page.');
             }
@@ -99,7 +119,7 @@ export class SessionResultPageComponent implements OnInit {
             this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                 'You are not authorized to view this page.');
           });
-        } else if (auth.user) {
+        } else if (this.loggedInUser) {
           // Load information based on logged in user
           this.loadFeedbackSession();
         } else {
@@ -120,6 +140,7 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSession(): void {
+    this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
@@ -128,24 +149,27 @@ export class SessionResultPageComponent implements OnInit {
     }).subscribe((feedbackSession: FeedbackSession) => {
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
-      this.formattedSessionOpeningTime =
-          moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-      this.formattedSessionClosingTime =
-          moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+      this.formattedSessionOpeningTime = this.timezoneService
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+      this.formattedSessionClosingTime = this.timezoneService
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
       this.feedbackSessionsService.getFeedbackSessionResults({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.STUDENT_RESULT,
         key: this.regKey,
-      }).subscribe((sessionResults: SessionResults) => {
-        this.questions = sessionResults.questions.sort(
-            (a: QuestionOutput, b: QuestionOutput) =>
-                a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      })
+          .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
+          .subscribe((sessionResults: SessionResults) => {
+            this.questions = sessionResults.questions.sort(
+                (a: QuestionOutput, b: QuestionOutput) =>
+                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+          }, (resp: ErrorMessageOutput) => {
+            this.handleError(resp);
+          });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isFeedbackSessionResultsLoading = false;
+      this.handleError(resp);
     });
   }
 
@@ -156,4 +180,25 @@ export class SessionResultPageComponent implements OnInit {
     this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
   }
 
+  retryLoadingFeedbackSessionResults(): void {
+    this.hasFeedbackSessionResultsLoadingFailed = false;
+    if (this.retryAttempts >= 0) {
+      this.retryAttempts -= 1;
+    }
+    this.loadFeedbackSession();
+  }
+
+  /**
+   * Handles error according to number of attempts at retry
+   */
+  handleError(resp: ErrorMessageOutput): void {
+    this.hasFeedbackSessionResultsLoadingFailed = true;
+    if (this.retryAttempts < 0) {
+      const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+      report.componentInstance.requestId = resp.error.requestId;
+      report.componentInstance.errorMessage = resp.error.message;
+    } else {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    }
+  }
 }

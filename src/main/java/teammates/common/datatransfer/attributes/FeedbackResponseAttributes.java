@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,12 +36,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String giverSection;
     public String recipientSection;
 
-    protected transient Instant createdAt;
-    protected transient Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private String feedbackResponseId;
 
-    FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
+    private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;
         this.giver = giver;
         this.recipient = recipient;
@@ -89,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackQuestionType getFeedbackQuestionType() {
-        return responseDetails.questionType;
+        return responseDetails.getQuestionType();
     }
 
     public String getId() {
@@ -221,19 +220,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
-    }
-
-    /**
-     * Checks if this object represents a missing response.
-     * A missing response should never be written to the database.
-     * It should only be used as a representation.
-     */
-    public boolean isMissingResponse() {
-        return responseDetails == null;
-    }
-
-    public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
     /**
@@ -375,10 +361,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

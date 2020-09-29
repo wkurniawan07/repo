@@ -3,16 +3,14 @@
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -45,7 +43,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model="TEST"
               placeholder="Your search keyword"
               type="text"
             />
@@ -58,77 +55,76 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  ng-reflect-model="true"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  ng-reflect-model="false"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar>
+  </tm-instructor-search-bar><div>
+    
+    
+  </div>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -161,7 +157,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model=""
               placeholder="Your search keyword"
               type="text"
             />
@@ -175,641 +170,516 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  ng-reflect-model="true"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  ng-reflect-model="false"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar><tm-student-result-table
-    ng-reflect-student-tables="[object Object]"
-  >
-    <div
-      class="card border border-primary mb-4"
-    >
+  </tm-instructor-search-bar><div>
+    
+    <tm-student-result-table>
       <div
-        class="card-header text-white bg-primary font-weight-bold"
+        class="card border border-primary mb-4"
       >
-        Students
-      </div>
-      <div
-        class="card-body p-3"
-      >
-        
         <div
-          class="card border border-light-blue mb-3"
+          class="card-header text-white bg-primary font-weight-bold"
         >
+          Students
+        </div>
+        <div
+          class="card-body p-3"
+        >
+          
           <div
-            class="card-header text-dark-blue bg-light-blue font-weight-bold"
+            class="card border border-light-blue mb-3"
+            id="student-course-table"
           >
-            [test-exa.demo]
-          </div>
-          <div
-            class="card-body p-0"
-          >
-            <tm-student-list
-              ng-reflect-course-id="test-exa.demo"
-              ng-reflect-enable-remind-button="false"
-              ng-reflect-is-action-buttons-enabled="true"
-              ng-reflect-students="[object Object],[object Object"
-              ng-reflect-use-gray-heading="true"
+            <div
+              class="card-header alert-primary font-weight-bold"
             >
-              <div
-                class="table-responsive"
-              >
-                <table
-                  class="table table-bordered table-striped m-0"
+              [test-exa.demo]
+            </div>
+            <div
+              class="card-body p-0"
+            >
+              <tm-student-list>
+                <div
+                  class="table-responsive"
                 >
-                  <thead
-                    class="thead-gray"
-                    ng-reflect-ng-class="[object Object]"
+                  <table
+                    class="table table-bordered table-striped m-0"
                   >
-                    <tr>
-                      <th>
-                        Photo
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Section 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Team 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Student Name 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Status 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Email 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th>
-                        Action(s)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr
-                      s=""
+                    <thead
+                      class="thead-gray"
                     >
-                      <td
-                        class="align-center"
-                      >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
+                      <tr>
+                        <th>
+                          Photo
+                        </th>
+                        
+                        <th
+                          class="sortable-header"
                         >
-                          
+                           Section 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Team 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Student Name 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Status 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Email 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="align-center"
+                        >
+                          Action(s)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr
+                        s=""
+                      >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
+                        
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          tester
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          tester@tester.com
+                        </td>
+                        <td
+                          class="no-print align-center"
+                        >
                           
                           
                           <a
-                            href="/"
-                            ng-reflect-query-params-handling="preserve"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             View
                           </a>
-                          
-                          
-                          
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        tester
-                      </td>
-                      <td
-                        class="align-center"
-                      >
-                        Joined
-                      </td>
-                      <td>
-                        tester@tester.com
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
-                        >
-                          Delete
-                        </button>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td
-                        class="align-center"
-                      >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
-                          
                           
                           
                           <a
-                            href="/"
-                            ng-reflect-query-params-handling="preserve"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             Edit
                           </a>
                           
                           
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right"
+                          >
+                            Delete
+                          </button>
                           
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Benny Charles
-                      </td>
-                      <td
-                        class="align-center"
-                      >
-                        Joined
-                      </td>
-                      <td>
-                        benny.c.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
-                        >
-                          Delete
-                        </button>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td
-                        class="align-center"
-                      >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
                           
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
+                      >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
+                        
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Benny Charles
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          benny.c.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
+                        >
                           
                           
                           <a
-                            href="/"
-                            ng-reflect-query-params-handling="preserve"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             View
                           </a>
-                          
-                          
-                          
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Alice Betsy
-                      </td>
-                      <td
-                        class="align-center"
-                      >
-                        Joined
-                      </td>
-                      <td>
-                        alice.b.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
-                        >
-                          Delete
-                        </button>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td
-                        class="align-center"
-                      >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
-                          
                           
                           
                           <a
-                            href="/"
-                            ng-reflect-query-params-handling="preserve"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             Edit
                           </a>
                           
                           
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right"
+                          >
+                            Delete
+                          </button>
                           
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Danny Engrid
-                      </td>
-                      <td
-                        class="align-center"
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
                       >
-                        Joined
-                      </td>
-                      <td>
-                        danny.e.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
+                        
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Alice Betsy
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          alice.b.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
+                        >
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             View
+                          </a>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             Edit
+                          </a>
+                          
+                          
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right"
+                          >
+                            Delete
+                          </button>
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
                       >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
                         
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Danny Engrid
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          danny.e.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
                         >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
-                        >
-                          Delete
-                        </button>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </tm-student-list>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             View
+                          </a>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             Edit
+                          </a>
+                          
+                          
+                          <button
+                            class="btn btn-light btn-sm btn-margin-right"
+                          >
+                            Delete
+                          </button>
+                          
+                          <a
+                            class="btn btn-light btn-sm btn-margin-right"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </tm-student-list>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </tm-student-result-table>
+    </tm-student-result-table>
+    
+  </div>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -842,7 +712,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model=""
               placeholder="Your search keyword"
               type="text"
             />
@@ -856,60 +725,61 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  ng-reflect-model="true"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  ng-reflect-model="false"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar>
+  </tm-instructor-search-bar><div>
+    
+    
+  </div>
 </tm-instructor-search-page>
 `;

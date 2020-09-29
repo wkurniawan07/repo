@@ -4,11 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
-import { InstructorAccountSearchResult,
-  SearchService, StudentAccountSearchResult } from '../../../services/search.service';
+import {
+  FeedbackSessionsGroup, InstructorAccountSearchResult,
+  SearchService, StudentAccountSearchResult,
+} from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { AdminSearchPageComponent } from './admin-search-page.component';
+
+const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
+  sessionName: {
+    feedbackSessionUrl: 'sessionUrl',
+    startTime: 'startTime',
+    endTime: 'endTime',
+  },
+};
 
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
@@ -17,7 +27,7 @@ describe('AdminSearchPageComponent', () => {
   let searchService: SearchService;
   let studentService: StudentService;
   let statusMessageService: StatusMessageService;
-  let modalService: NgbModal;
+  let ngbModal: NgbModal;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,11 +45,11 @@ describe('AdminSearchPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.get(AccountService);
-    searchService = TestBed.get(SearchService);
-    studentService = TestBed.get(StudentService);
-    statusMessageService = TestBed.get(StatusMessageService);
-    modalService = TestBed.get(NgbModal);
+    accountService = TestBed.inject(AccountService);
+    searchService = TestBed.inject(SearchService);
+    studentService = TestBed.inject(StudentService);
+    statusMessageService = TestBed.inject(StatusMessageService);
+    ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 
@@ -142,9 +152,9 @@ describe('AdminSearchPageComponent', () => {
         team: 'team1',
         comments: 'comments1',
         recordsPageLink: 'recordsPageLink1',
-        openSessions: { ['index']: 'session' },
-        notOpenSessions: { ['index']: 'session' },
-        publishedSessions: { ['index']: 'session' },
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }, {
         name: 'name2',
         email: 'email2',
@@ -160,9 +170,9 @@ describe('AdminSearchPageComponent', () => {
         team: 'team2',
         comments: 'comments2',
         recordsPageLink: 'recordsPageLink2',
-        openSessions: { ['index']: 'session' },
-        notOpenSessions: { ['index']: 'session' },
-        publishedSessions: { ['index']: 'session' },
+        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }];
 
     spyOn(searchService, 'searchAdmin').and.returnValue(of({
@@ -218,9 +228,9 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
-      openSessions: { ['index']: 'session' },
-      notOpenSessions: { ['index']: 'session' },
-      publishedSessions: { ['index']: 'session' },
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
@@ -246,7 +256,7 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -283,7 +293,7 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -326,14 +336,14 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
-      openSessions: { ['index']: 'session' },
-      notOpenSessions: { ['index']: 'session' },
-      publishedSessions: { ['index']: 'session' },
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -372,14 +382,14 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
-      openSessions: { ['index']: 'session' },
-      notOpenSessions: { ['index']: 'session' },
-      publishedSessions: { ['index']: 'session' },
+      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -422,14 +432,32 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
-      openSessions: { ['index']: 'openSession?key=oldKey' },
-      notOpenSessions: { ['index']: 'notOpenSession?key=oldKey' },
-      publishedSessions: { ['index']: 'publishedSession?key=oldKey' },
+      openSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'openSession?key=oldKey',
+        },
+      },
+      notOpenSessions:  {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'notOpenSession?key=oldKey',
+        },
+      },
+      publishedSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'publishedSession?key=oldKey',
+        },
+      },
     };
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           studentName: 'dummy', regenerateLinksCourseId: 'dummy',
@@ -454,9 +482,9 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toBeCalled();
 
     expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
-    expect(studentResult.openSessions.index).toEqual('openSession?key=newKey');
-    expect(studentResult.notOpenSessions.index).toEqual('notOpenSession?key=newKey');
-    expect(studentResult.publishedSessions.index).toEqual('publishedSession?key=newKey');
+    expect(studentResult.openSessions.sessionName.feedbackSessionUrl).toEqual('openSession?key=newKey');
+    expect(studentResult.notOpenSessions.sessionName.feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
+    expect(studentResult.publishedSessions.sessionName.feedbackSessionUrl).toEqual('publishedSession?key=newKey');
   });
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
@@ -476,14 +504,32 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
-      openSessions: { ['index']: 'openSession?key=oldKey' },
-      notOpenSessions: { ['index']: 'notOpenSession?key=oldKey' },
-      publishedSessions: { ['index']: 'publishedSession?key=oldKey' },
+      openSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'openSession?key=oldKey',
+        },
+      },
+      notOpenSessions:  {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'notOpenSession?key=oldKey',
+        },
+      },
+      publishedSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'publishedSession?key=oldKey',
+        },
+      },
     };
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           studentName: 'dummy', regenerateLinksCourseId: 'dummy',

@@ -1,5 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`InstructorHomePageComponent should snap when courses are still loading 1`] = `
+<tm-instructor-home-page
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseTabModels={[Function Array]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoaded="false"
+  hasCoursesLoadingFailed="false"
+  instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentSearchkey=""
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
+    Home
+  </h1><div
+    class="card no-border bg-light mb-4"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="form-row"
+      >
+        <div
+          class="input-group"
+        >
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
+            placeholder="e.g. Charles Shultz, charles@gmail.com"
+            type="text"
+          />
+          <div
+            class="input-group-append"
+          >
+            <button
+              class="btn btn-primary"
+              id="btn-search"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-instructor-home-page>
+`;
+
 exports[`InstructorHomePageComponent should snap with default fields 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
@@ -10,37 +107,39 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -49,6 +148,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -56,24 +156,41 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </div>
-  </div><div
-    class="row"
-  >
+  </div><tm-loading-spinner>
     <div
-      class="col-4"
+      class="loading-container"
     >
-      <a
-        class="btn btn-primary text-white"
-        href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
-        routerlink="/web/instructor/courses"
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
       >
-        Add New Course
-      </a>
+        Loading...
+      </div>
     </div>
+  </tm-loading-spinner><tm-loading-retry>
     
-  </div><br />
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -86,38 +203,40 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -126,6 +245,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -134,19 +254,20 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -156,90 +277,104 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
+            
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
+          
           <div
-            class="btn-toolbar col-md-6"
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
           >
-            
-             Error loading feedback sessions. Click here to retry. 
-            
-             Error loading feedback sessions. Click here to retry. 
+            <tm-loading-retry>
+              
+              
+              <tm-loading-spinner
+                style=""
+              >
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+              
+              
+            </tm-loading-retry>
           </div>
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="no-session-message"
-          >
-             There are no feedback sessions in this course. 
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -252,38 +387,40 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -292,6 +429,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -300,19 +438,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -322,79 +461,68 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
-          </div>
-          <div
-            class="btn-toolbar col-md-6"
-          >
             
             <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
-            
-            <div
-              class="float-right"
+              class="card-header-btn-toolbar"
             >
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -409,22 +537,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
-                    ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
-                    ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
                      View / Edit 
@@ -432,13 +551,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -451,10 +570,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -462,13 +577,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -481,10 +596,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
-                    ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
                      Add 
@@ -492,13 +603,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -510,7 +622,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -518,10 +630,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -530,7 +638,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -539,285 +647,279 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+          
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
+              >
+                
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <table
+                      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                      id="sessions-table"
+                    >
+                      <thead>
+                        <tr>
+                          
+                          <th
+                            class="sortable-header"
+                            id="sort-session-name"
+                          >
+                             Session Name 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             Start Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             End Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          <th>
+                            Submissions
+                          </th>
+                          <th>
+                            Responses
+                          </th>
+                          <th
+                            class="ngb-tooltip-class"
+                            container="body"
+                            ngbtooltip="Number of students submitted / Class size"
+                          >
+                            <span>
+                              Response Rate
+                            </span>
+                          </th>
+                          <th
+                            class="text-center"
+                          >
+                            Action(s)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          
+                          <td>
+                            Feedback
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              19 Jan 6:43 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              19 Jan 6:46 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Awaiting
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Not Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div
+                              id="response-rate-0"
+                            >
+                              0 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
+                          >
+                            
+                            <a
+                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback"
+                              routerlink="/web/instructor/sessions/edit"
+                            >
+                              
+                              <button
+                                class="btn btn-light btn-sm"
+                                type="button"
+                              >
+                                 Edit 
+                              </button>
+                            </a>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              id="btn-soft-delete-0"
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              class="btn btn-light btn-sm"
+                              id="btn-copy-0"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
+                            >
+                              Submit
+                            </button>
+                            
+                            
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
+                            >
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-0"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  id="btn-publish-0"
+                                  ngbtooltip="Make session responses available for viewing"
+                                  placement="left"
+                                >
+                                  Publish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  disabled=""
+                                  id="btn-download-0"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                                id="btn-remind-0"
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
           </div>
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models="[object Object]"
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="row"
-          >
-            <div
-              class="col-12"
-            >
-              <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-              >
-                <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Session Name 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Start Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       End Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    <th>
-                      Submissions
-                    </th>
-                    <th>
-                      Responses
-                    </th>
-                    <th
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
-                      ngbtooltip="Number of students submitted / Class size"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Response Rate
-                      </span>
-                    </th>
-                    <th
-                      class="text-center"
-                    >
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <tr>
-                    
-                    <td>
-                      Feedback
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:43 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        19 Jan 6:43 AM
-                      </span>
-                    </td>
-                    
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:46 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        19 Jan 6:46 AM
-                      </span>
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Awaiting
-                      </span>
-                    </td>
-                    <td
-                      class="tool-tip-decorate"
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Not Published
-                      </span>
-                    </td>
-                    <td>
-                      
-                      
-                      <div>
-                        0 / 6
-                      </div>
-                      
-                    </td>
-                    <td
-                      class="actions-cell"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
-                      <div
-                        class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
-                        ngbdropdown=""
-                        ngbtooltip="View the submitted responses for this feedback session"
-                      >
-                        <button
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
-                          ngbdropdowntoggle=""
-                        >
-                          Results
-                        </button>
-                        <div
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            View Results
-                          </button>
-                          
-                          <button
-                            class="dropdown-item clickable"
-                            container="body"
-                            disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make session responses availab"
-                            ng-reflect-placement="left"
-                            ngbtooltip="Make session responses available for viewing"
-                            placement="left"
-                          >
-                            Publish Results
-                          </button>
-                          
-                          
-                          
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            Download Results
-                          </button>
-                        </div>
-                      </div>
-                      <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
-                        ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                        >
-                          Remind
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -830,38 +932,40 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -870,6 +974,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -878,19 +983,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -900,79 +1006,68 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
-          </div>
-          <div
-            class="btn-toolbar col-md-6"
-          >
             
             <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
-            
-            <div
-              class="float-right"
+              class="card-header-btn-toolbar"
             >
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -986,10 +1081,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
-                    ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
                      View / Edit 
@@ -997,13 +1088,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -1016,10 +1107,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -1027,13 +1114,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1046,10 +1133,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
-                    ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
                      Add 
@@ -1057,13 +1140,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1075,7 +1159,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1083,10 +1167,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -1095,454 +1175,428 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+          
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
+              >
+                
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    <table
+                      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                      id="sessions-table"
+                    >
+                      <thead>
+                        <tr>
+                          
+                          <th
+                            class="sortable-header"
+                            id="sort-session-name"
+                          >
+                             Session Name 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             Start Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             End Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          <th>
+                            Submissions
+                          </th>
+                          <th>
+                            Responses
+                          </th>
+                          <th
+                            class="ngb-tooltip-class"
+                            container="body"
+                            ngbtooltip="Number of students submitted / Class size"
+                          >
+                            <span>
+                              Response Rate
+                            </span>
+                          </th>
+                          <th
+                            class="text-center"
+                          >
+                            Action(s)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          
+                          <td>
+                            Feedback 1
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Closed
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div
+                              id="response-rate-0"
+                            >
+                              0 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
+                          >
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              type="button"
+                            >
+                               Edit 
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              id="btn-soft-delete-0"
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              class="btn btn-light btn-sm"
+                              id="btn-copy-0"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
+                            >
+                              Submit
+                            </button>
+                            
+                            
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
+                            >
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-0"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  id="btn-unpublish-0"
+                                  ngbtooltip="Make responses no longer visible"
+                                  placement="left"
+                                >
+                                  Unpublish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  id="btn-resend-0"
+                                >
+                                  Resend link to view results
+                                </button>
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  disabled=""
+                                  id="btn-download-0"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                                id="btn-remind-0"
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          
+                          <td>
+                            Feedback 2
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Open
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
+                              Not Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div
+                              id="response-rate-1"
+                            >
+                              5 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
+                          >
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              type="button"
+                            >
+                               Edit 
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              id="btn-soft-delete-1"
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              class="btn btn-light btn-sm"
+                              id="btn-copy-1"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
+                            >
+                              Submit
+                            </button>
+                            
+                            
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
+                            >
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-1"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable disabled"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  id="btn-publish-1"
+                                  ngbtooltip="Make session responses available for viewing"
+                                  placement="left"
+                                >
+                                  Publish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  disabled=""
+                                  id="btn-download-1"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                                id="btn-remind-1"
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
           </div>
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models="[object Object],[object Object"
-          ng-reflect-sessions-table-row-models-sort-by="11"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="row"
-          >
-            <div
-              class="col-12"
-            >
-              <table
-                class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-              >
-                <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Session Name 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       Start Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                       End Date 
-                      
-                      <span
-                        class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                      </span>
-                      
-                      
-                    </th>
-                    <th>
-                      Submissions
-                    </th>
-                    <th>
-                      Responses
-                    </th>
-                    <th
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
-                      ngbtooltip="Number of students submitted / Class size"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Response Rate
-                      </span>
-                    </th>
-                    <th
-                      class="text-center"
-                    >
-                      Action(s)
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  
-                  <tr>
-                    
-                    <td>
-                      Feedback 1
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        1 Jan 7:30 AM
-                      </span>
-                    </td>
-                    
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        1 Jan 7:30 AM
-                      </span>
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Closed
-                      </span>
-                    </td>
-                    <td
-                      class="tool-tip-decorate"
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Published
-                      </span>
-                    </td>
-                    <td>
-                      
-                      
-                      <div>
-                        0 / 6
-                      </div>
-                      
-                    </td>
-                    <td
-                      class="actions-cell"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
-                      <div
-                        class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
-                        ngbdropdown=""
-                        ngbtooltip="View the submitted responses for this feedback session"
-                      >
-                        <button
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
-                          ngbdropdowntoggle=""
-                        >
-                          Results
-                        </button>
-                        <div
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            View Results
-                          </button>
-                          
-                          <button
-                            class="dropdown-item clickable"
-                            container="body"
-                            disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make responses no longer visib"
-                            ng-reflect-placement="left"
-                            ngbtooltip="Make responses no longer visible"
-                            placement="left"
-                          >
-                            Unpublish Results
-                          </button>
-                          
-                          
-                          
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            Resend link to view results
-                          </button>
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            Download Results
-                          </button>
-                        </div>
-                      </div>
-                      <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
-                        ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                        >
-                          Remind
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    
-                    <td>
-                      Feedback 2
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        1 Jan 7:30 AM
-                      </span>
-                    </td>
-                    
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        1 Jan 7:30 AM
-                      </span>
-                    </td>
-                    
-                    <td
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Open
-                      </span>
-                    </td>
-                    <td
-                      class="tool-tip-decorate"
-                      container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
-                    >
-                      <span
-                        class="tool-tip-decorate"
-                      >
-                        Not Published
-                      </span>
-                    </td>
-                    <td>
-                      
-                      
-                      <div>
-                        5 / 6
-                      </div>
-                      
-                    </td>
-                    <td
-                      class="actions-cell"
-                    >
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
-                        ngbtooltip="Edit feedback session details"
-                        type="button"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
-                        ngbtooltip="Delete the feedback session"
-                        type="button"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
-                        ngbtooltip="Copy feedback session details"
-                        type="button"
-                      >
-                        Copy
-                      </button>
-                      <button
-                        class="btn btn-light btn-sm"
-                        disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
-                        ngbtooltip="Start submitting feedback"
-                        type="button"
-                      >
-                        Submit
-                      </button>
-                      <div
-                        class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
-                        ngbdropdown=""
-                        ngbtooltip="View the submitted responses for this feedback session"
-                      >
-                        <button
-                          aria-expanded="false"
-                          aria-haspopup="true"
-                          class="btn btn-light btn-sm dropdown-toggle"
-                          ngbdropdowntoggle=""
-                        >
-                          Results
-                        </button>
-                        <div
-                          class="dropdown-menu"
-                          ngbdropdownmenu=""
-                          x-placement="bottom"
-                        >
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            View Results
-                          </button>
-                          
-                          <button
-                            class="dropdown-item clickable"
-                            container="body"
-                            disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make session responses availab"
-                            ng-reflect-placement="left"
-                            ngbtooltip="Make session responses available for viewing"
-                            placement="left"
-                          >
-                            Publish Results
-                          </button>
-                          
-                          
-                          
-                          <button
-                            class="dropdown-item clickable"
-                          >
-                            Download Results
-                          </button>
-                        </div>
-                      </div>
-                      <div
-                        class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
-                        ngbdropdown=""
-                        ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                        >
-                          Remind
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -1555,38 +1609,40 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1595,6 +1651,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1603,19 +1660,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1625,79 +1683,68 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
-          </div>
-          <div
-            class="btn-toolbar col-md-6"
-          >
             
             <div
-              class="float-right"
-            >
-              
-              <i
-                class="fas fa-chevron-down"
-              />
-              
-            </div>
-            
-            <div
-              class="float-right"
+              class="card-header-btn-toolbar"
             >
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -1712,22 +1759,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
-                    ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
-                    ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
                      View / Edit 
@@ -1735,13 +1773,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -1754,10 +1792,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -1765,13 +1799,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1784,10 +1818,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
-                    ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
                      Add 
@@ -1795,13 +1825,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1813,7 +1844,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1821,10 +1852,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -1833,7 +1860,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -1842,35 +1869,25 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
+          
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="no-session-message"
-          >
-             There are no feedback sessions in this course. 
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -1883,38 +1900,40 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1923,6 +1942,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1931,19 +1951,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1953,79 +1974,68 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
-          </div>
-          <div
-            class="btn-toolbar col-md-6"
-          >
             
             <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
-            
-            <div
-              class="float-right"
+              class="card-header-btn-toolbar"
             >
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -2040,22 +2050,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
-                    ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
-                    ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
                      View / Edit 
@@ -2063,13 +2064,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2082,10 +2083,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -2093,13 +2090,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2112,10 +2109,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
-                    ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
                      Add 
@@ -2123,13 +2116,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2141,7 +2135,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2149,10 +2143,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -2161,7 +2151,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2170,35 +2160,53 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+          
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <tm-loading-retry>
+              
+              
+              <tm-loading-spinner
+                style=""
+              >
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+              
+              
+            </tm-loading-retry>
           </div>
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="no-session-message"
-          >
-             There are no feedback sessions in this course. 
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -2211,38 +2219,40 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  hasCoursesLoaded="false"
+  hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
-  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -2251,6 +2261,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -2259,19 +2270,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -2281,79 +2293,68 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><tm-loading-retry>
     
-    <div
-      class="card margin-bottom-15px"
-    >
-      <div
-        class="card-header bg-primary text-white course-tab-header"
-      >
+    
+    <div>
+      
+      <div>
+        
         <div
-          class="row"
+          class="card"
+          id="course-tab"
         >
           <div
-            class="course-header col-md-6"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3243]: Introduction to AI
             </b>
-          </div>
-          <div
-            class="btn-toolbar col-md-6"
-          >
             
             <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
-            
-            <div
-              class="float-right"
+              class="card-header-btn-toolbar"
             >
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -2368,22 +2369,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
-                    ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
-                  
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
-                    ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
                      View / Edit 
@@ -2391,13 +2383,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2410,10 +2402,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -2421,13 +2409,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2440,10 +2428,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
-                    ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
                      Add 
@@ -2451,13 +2435,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="padding-right-10px dropdown"
+                class="dropdown"
                 ngbdropdown=""
               >
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-light btn-sm dropdown-toggle"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2469,7 +2454,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2477,10 +2462,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
-                    ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
@@ -2489,7 +2470,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2498,34 +2479,46 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
+          </div>
+          
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            style=""
+          >
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
+              >
+                
+                <div
+                  class="no-session-message"
+                >
+                   There are no feedback sessions in this course. 
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
           </div>
         </div>
       </div>
-      
-      
-      
-      <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
-      >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
-          
-          <div
-            class="no-session-message"
-          >
-             There are no feedback sessions in this course. 
-          </div>
-          
-        </tm-sessions-table>
-      </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;

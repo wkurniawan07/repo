@@ -1,6 +1,7 @@
 package teammates.storage.search;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -48,7 +49,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     @Override
-    protected void prepareData() {
+    void prepareData() {
         if (comment == null) {
             return;
         }
@@ -132,7 +133,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     @Override
-    public Document toDocument() {
+    Document toDocument() {
 
         // populate related Students/Instructors information
         StringBuilder relatedPeopleBuilder = new StringBuilder("");
@@ -294,7 +295,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         }
 
         for (List<FeedbackResponseAttributes> responses : bundle.responses.values()) {
-            FeedbackResponseAttributes.sortFeedbackResponses(responses);
+            responses.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
         }
 
         for (List<FeedbackResponseCommentAttributes> responseComments : bundle.comments.values()) {
@@ -355,7 +356,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         if (!isNameVisibleToInstructor(bundle.instructorEmails, instructorCourseIdList,
                                        response, question.showGiverNameTo)
                 && question.giverType != FeedbackParticipantType.SELF) {
-            return FeedbackSessionResultsBundle.getAnonName(question.giverType, name);
+            return SessionResultsBundle.getAnonName(question.giverType, name);
         }
         return name;
     }
@@ -368,7 +369,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                                        response, question.showRecipientNameTo)
                 && question.recipientType != FeedbackParticipantType.SELF
                 && question.recipientType != FeedbackParticipantType.NONE) {
-            return FeedbackSessionResultsBundle.getAnonName(question.recipientType, name);
+            return SessionResultsBundle.getAnonName(question.recipientType, name);
         }
         return name;
     }

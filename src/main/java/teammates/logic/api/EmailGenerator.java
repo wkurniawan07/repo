@@ -60,6 +60,8 @@ public class EmailGenerator {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
+    private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
+
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
@@ -106,6 +108,21 @@ public class EmailGenerator {
                                                         FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation));
 
         return emails;
+    }
+
+    /**
+     * Generates the feedback session reminder emails for the given {@code student}.
+     */
+    public EmailWrapper generateFeedbackSessionStudentReminderEmail(
+            FeedbackSessionAttributes session, StudentAttributes student) {
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+
+        return generateFeedbackSessionEmailBaseForStudents(course, session, student, template,
+                EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
     }
 
     /**
@@ -168,7 +185,8 @@ public class EmailGenerator {
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", fsa.getEndTimeString() + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${deadline}", TimeHelper.formatInstant(fsa.getEndTime(), fsa.getTimeZone(), DATETIME_DISPLAY_FORMAT)
+                            + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
@@ -272,10 +290,11 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${submitUrl}", submitUrl,
                 "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatDateTimeForDisplay(timestamp, session.getTimeZone())),
+                        TimeHelper.formatInstant(timestamp, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
@@ -415,7 +434,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -555,16 +575,16 @@ public class EmailGenerator {
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject, String feedbackAction,
-            String addtionalContactInformation) {
+            String additionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         return emails;
     }
@@ -592,7 +612,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -632,7 +653,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",

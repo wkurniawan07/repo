@@ -16,6 +16,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
@@ -94,7 +95,7 @@ public class InstructorCourseEditPage extends AppPage {
         } else {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
-        assertEquals(getRoleIndex(instructor.role), getInstructorAccessLevel(instrNum));
+        assertEquals(instructor.role, getInstructorRole(instrNum));
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
                 && getEditInstructorButton(instrNum).isEnabled()) {
             verifyCustomPrivileges(instrNum, instructor.privileges);
@@ -200,10 +201,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instructorIndex), newInstructor.name);
         fillTextBox(getEmailField(instructorIndex), newInstructor.email);
         if (newInstructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instructorIndex));
             fillTextBox(getDisplayNameField(instructorIndex), newInstructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instructorIndex));
         }
         selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.role));
         clickSaveInstructorButton(instructorIndex);
@@ -225,17 +226,17 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instrNum), instructor.name);
         fillTextBox(getEmailField(instrNum), instructor.email);
         if (instructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instrNum));
             fillTextBox(getDisplayNameField(instrNum), instructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instrNum));
         }
         selectRoleForInstructor(instrNum, getRoleIndex(instructor.role));
         clickSaveInstructorButton(instrNum);
     }
 
     public void toggleCustomCourseLevelPrivilege(int instrNum, String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -246,7 +247,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
                                                 String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -260,7 +261,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
                                                String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -307,7 +308,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        waitForPageToLoad(true);
+        ThreadHelper.waitFor(1000);
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {
@@ -388,15 +389,9 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("displayed-name-instructor-" + instrNum)).getAttribute("value");
     }
 
-    public int getInstructorAccessLevel(int instrNum) {
-        List<WebElement> accessLevelCheckboxes = browser.driver.findElements(
-                By.cssSelector("#access-levels-instructor-" + instrNum + " input"));
-        for (int i = 0; i < accessLevelCheckboxes.size(); i++) {
-            if (accessLevelCheckboxes.get(i).isSelected()) {
-                return i;
-            }
-        }
-        return -1;
+    public String getInstructorRole(int instrNum) {
+        String roleAndDescription = browser.driver.findElement(By.id("role-instructor-" + instrNum)).getText();
+        return roleAndDescription.split(":")[0];
     }
 
     private WebElement getAccessLevels(int instrNum) {

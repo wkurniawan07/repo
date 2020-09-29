@@ -3,9 +3,9 @@
     <input type="checkbox" disabled>
   </span>
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #msq
-         (ngModelChange)="onMsqOptionEntered($event)">
+         (ngModelChange)="onMsqOptionEntered($event.trim())">
   <span class="input-group-btn">
-    <button type="button" class="btn input-group-addon" style="cursor: initial" tabindex="-1"
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
             [disabled]="!isEditable" (click)="deleteMsqOption()">
       <span aria-hidden="true">&times;</span>
     </button>

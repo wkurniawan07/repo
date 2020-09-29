@@ -27,7 +27,7 @@ export class McqQuestionEditAnswerFormComponent
   @Input()
   id: string = '';
 
-  @ViewChild('inputTextBoxOther', { static: false }) inputTextBoxOther?: ElementRef;
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   isMcqOptionSelected: boolean[] = [];
 
@@ -70,10 +70,17 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the answer to the Mcq option specified by the index.
    */
   updateSelectedMcqOption(index: number): void {
+    let answer: string;
+    if (this.responseDetails.answer === this.questionDetails.mcqChoices[index]) {
+      // same answer is selected: toggle as unselected
+      answer = '';
+    } else {
+      answer = this.questionDetails.mcqChoices[index];
+    }
     this.triggerResponseDetailsChangeBatch({
+      answer,
       isOther: false,
       otherFieldContent: '',
-      answer: this.questionDetails.mcqChoices[index],
     });
   }
 

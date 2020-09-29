@@ -2,7 +2,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -65,8 +66,9 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     CommonModule,
     DragDropModule,
     FormsModule,
-    NgbModule,
+    NgbTooltipModule,
     OptionRichTextEditorModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }

@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Url;
+import teammates.common.util.UrlExtension;
 
 /**
  * Represents properties in test.properties file.
@@ -25,11 +25,11 @@ public final class TestProperties {
     /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/e2e/resources/pages";
 
-    /** The directory where HTML files for testing email contents are stored. */
-    public static final String TEST_EMAILS_FOLDER = "src/e2e/resources/emails";
-
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/e2e/resources/data";
+
+    /** The directory where webdriver downloads files to. */
+    public static final String TEST_DOWNLOADS_FOLDER = "src/e2e/resources/downloads";
 
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
@@ -82,6 +82,9 @@ public final class TestProperties {
     /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_SAUCELABS = "saucelabs";
 
+    /** The value of "test.browser.closeonfailure" in test.properties file. */
+    public static final boolean CLOSE_BROWSER_ON_FAILURE;
+
     /** The value of "test.firefox.path" in test.properties file. */
     public static final String FIREFOX_PATH;
 
@@ -90,6 +93,12 @@ public final class TestProperties {
 
     /** The value of "test.geckodriver.path" in test.properties file. */
     public static final String GECKODRIVER_PATH;
+
+    /** The value of "test.firefox.profile.name" in test.properties file. */
+    public static final String FIREFOX_PROFILE_NAME;
+
+    /** The value of "test.chrome.userdata.path" in test.properties file. */
+    public static final String CHROME_USER_DATA_PATH;
 
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
@@ -113,7 +122,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
 
             Properties buildProperties = new Properties();
             try (InputStream buildPropStream = Files.newInputStream(Paths.get("src/main/resources/build.properties"))) {
@@ -140,9 +149,12 @@ public final class TestProperties {
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
+            CLOSE_BROWSER_ON_FAILURE = Boolean.parseBoolean(prop.getProperty("test.browser.closeonfailure"));
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
+            FIREFOX_PROFILE_NAME = prop.getProperty("test.firefox.profile.name");
+            CHROME_USER_DATA_PATH = prop.getProperty("test.chrome.userdata.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));

@@ -25,6 +25,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
@@ -33,7 +34,7 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -82,10 +83,16 @@ public abstract class AppPage {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
 
-        boolean isCorrectPageType = containsExpectedPageContents();
+        boolean isCorrectPageType;
 
-        if (isCorrectPageType) {
-            return;
+        try {
+            isCorrectPageType = containsExpectedPageContents();
+
+            if (isCorrectPageType) {
+                return;
+            }
+        } catch (Exception e) {
+            // ignore and try again
         }
 
         // To minimize test failures due to eventual consistency, we try to
@@ -112,6 +119,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
+        currentBrowser.waitForPageLoad();
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
@@ -189,6 +197,12 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.elementToBeClickable(element));
     }
 
+    public void waitUntilAnimationFinish() {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 2);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
+        ThreadHelper.waitFor(500);
+    }
+
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
      * @param element the WebElement
@@ -262,9 +276,7 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        By headerTag = By.tagName("h1");
-        waitForElementPresence(headerTag);
-        return browser.driver.findElement(headerTag).getText();
+        return waitForElementPresence(By.tagName("h1")).getText();
     }
 
     public void click(By by) {
@@ -370,25 +382,65 @@ public abstract class AppPage {
     }
 
     /**
-     * 'check' the check box, if it is not already 'checked'.
-     * No action taken if it is already 'checked'.
+     * Get rich text from editor.
      */
-    protected void markCheckBoxAsChecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (!checkBox.isSelected()) {
-            click(checkBox);
+    protected String getEditorRichText(WebElement editor) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
+
+        String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
+        // check if editor is empty
+        innerHtml = innerHtml.contains("data-mce-bogus") ? "" : innerHtml;
+        browser.driver.switchTo().defaultContent();
+        return innerHtml;
+    }
+
+    /**
+     * Write rich text to editor.
+     */
+    protected void writeToRichTextEditor(WebElement editor, String text) {
+        waitForElementPresence(By.tagName("iframe"));
+        String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
+        executeScript(String.format("tinyMCE.get('%s').setContent('%s');"
+                + " tinyMCE.get('%s').save()", id, text, id));
+    }
+
+    /**
+     * Select the option, if it is not already selected.
+     * No action taken if it is already selected.
+     */
+    protected void markOptionAsSelected(WebElement option) {
+        waitForElementVisibility(option);
+        if (!option.isSelected()) {
+            click(option);
         }
     }
 
     /**
-     * 'uncheck' the check box, if it is not already 'unchecked'.
-     * No action taken if it is already 'unchecked'.
+     * Unselect the option, if it is not already unselected.
+     * No action taken if it is already unselected'.
      */
-    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsUnselected(WebElement option) {
+        waitForElementVisibility(option);
+        if (option.isSelected()) {
+            click(option);
         }
+    }
+
+    /**
+     * Returns the text of the option selected in the dropdown.
+     */
+    protected String getSelectedDropdownOptionText(WebElement dropdown) {
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    /**
+     * Selects option in dropdown based on visible text.
+     */
+    protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
     }
 
     /**
@@ -552,8 +604,15 @@ public abstract class AppPage {
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
-        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        scrollElementToCenter(element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to center.
+     */
+    void scrollElementToCenter(WebElement element) {
+        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
     }
 
     /**
@@ -595,6 +654,20 @@ public abstract class AppPage {
     protected void setWindowSize(int x, int y) {
         Dimension d = new Dimension(x, y);
         browser.driver.manage().window().setSize(d);
+    }
+
+    /**
+     * Switches to the new browser window just opened.
+     */
+    protected void switchToNewWindow() {
+        browser.switchToNewWindow();
+    }
+
+    /**
+     * Closes current window and switches back to parent window.
+     */
+    public void closeCurrentWindowAndSwitchToParentWindow() {
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     /**

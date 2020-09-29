@@ -6,14 +6,6 @@
   margin-right: 5px;
 }
 
-.question-header {
-  background-color: lighten(#007BFF, 5%);
-}
-
-.question-header button {
-  margin-left: 10px;
-}
-
 .background-color-light-blue {
   background-color: #EAEFF5;
 }
@@ -60,4 +52,16 @@
 
 .dropdown-item {
   cursor: pointer;
+}
+
+.collapse-caret {
+  margin-right: 10px;
+}
+
+.collapse-qn-description {
+  font-weight: 300;
+}
+
+.white-space-normal {
+  white-space: normal;
 }

@@ -7,7 +7,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -24,9 +23,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withUserId(testData.instructors.get("ICEnrollE2eT.teammates.test").googleId)
                 .withCourseId(testData.courses.get("ICEnrollE2eT.CS2104").getId());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCourseEnrollPage enrollPage =
-                AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
+        InstructorCourseEnrollPage enrollPage = loginAdminToPage(url, InstructorCourseEnrollPage.class);
 
         ______TS("Add rows to enroll spreadsheet");
         int numRowsToAdd = 30;
@@ -69,14 +66,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         // student2 included to test modified without change table
         StudentAttributes[] studentsEnrollingToExistingCourse = {student2, student3, student4, student5};
         enrollPage.enroll(studentsEnrollingToExistingCourse);
-        enrollPage.verifyStatusMessage("Some students failed to be enrolled, see the summary below."
-                + " You may check that: "
-                + "\"Section\" and \"Comment\" are optional while \"Team\", \"Name\", and \"Email\" must be filled. "
-                + "\"Section\", \"Team\", \"Name\", and \"Comment\" should start with an alphabetical character, "
-                + "unless wrapped by curly brackets \"{}\", "
-                + "and should not contain vertical bar \"|\" and percentage sign\"%\". "
-                + "\"Email\" should contain some text followed by one '@' sign followed by some more text. "
-                + "\"Team\" should not have same format of email to avoid mis-interpretation.");
+        enrollPage.verifyStatusMessage("Some students failed to be enrolled, see the summary below.");
 
         StudentAttributes[] newStudentsData = {student4};
         StudentAttributes[] modifiedStudentsData = {student3};

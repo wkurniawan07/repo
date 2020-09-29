@@ -4,17 +4,16 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.BackDoor;
+import teammates.test.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_ACCOUNTS_PAGE}.
  */
 @Priority(1)
-public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
+public class AdminAccountDetailsPageUiTest extends BaseLegacyUiTestCase {
     private AdminAccountDetailsPage detailsPage;
 
     @Override
@@ -35,7 +34,7 @@ public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
         ______TS("content: typical page");
 
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId("AAMgtUiT.instr2")
+                // .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
         detailsPage = loginAdminToPageOld(detailsPageUrl, AdminAccountDetailsPage.class);
 

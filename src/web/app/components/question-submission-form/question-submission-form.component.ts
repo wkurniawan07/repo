@@ -43,7 +43,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
@@ -52,6 +51,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+    this.allowedToHaveParticipantComment =
+        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   @Output()
@@ -71,7 +72,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextQuestionDetails,
@@ -86,10 +86,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
-  @Output()
-  saveCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
+  allowedToHaveParticipantComment: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -149,13 +148,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   /**
    * Triggers deletion of a participant comment associated with the response.
    */
-  triggerSaveCommentEvent(index: number): void {
-    this.saveCommentEvent.emit(index);
-  }
-
-  /**
-   * Triggers deletion of a participant comment associated with the response.
-   */
   triggerDeleteCommentEvent(index: number): void {
     this.deleteCommentEvent.emit(index);
   }
@@ -203,5 +195,19 @@ export class QuestionSubmissionFormComponent implements OnInit {
   isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
     return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
         this.model.questionType, responseDetails);
+  }
+
+  /**
+   * Updates validity of all responses in a question.
+   */
+  updateValidity(isValid: boolean): void {
+    if (this.model.recipientSubmissionForms.length === 0) { return; }
+    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+        this.model.recipientSubmissionForms.slice().map(
+            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
+    this.formModelChange.emit({
+      ...this.model,
+      recipientSubmissionForms,
+    });
   }
 }

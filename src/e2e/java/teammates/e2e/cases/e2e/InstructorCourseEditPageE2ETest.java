@@ -10,7 +10,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
@@ -39,8 +38,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withUserId(instructors[2].googleId)
                 .withCourseId(course.getId());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCourseEditPage editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        InstructorCourseEditPage editPage = loginAdminToPage(url, InstructorCourseEditPage.class);
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -52,10 +50,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
         editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
-        editPage.waitForPageToLoad();
 
         editPage.verifyCourseDetails(course);
-
         editPage.verifyInstructorDetails(instructors[0]);
         editPage.verifyInstructorDetails(instructors[1]);
         editPage.verifyInstructorDetails(instructors[2]);
@@ -93,7 +89,6 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
-        editPage.waitForPageToLoad();
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",

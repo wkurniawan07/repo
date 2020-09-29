@@ -10,7 +10,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -90,11 +89,6 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-                                                                                        String feedbackSessionName) {
-        return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
-    }
-
     /**
      * Gets all feedback response comments for session in a section.
      *
@@ -161,13 +155,6 @@ public final class FeedbackResponseCommentsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         return frcDb.updateFeedbackResponseComment(updateOptions);
-    }
-
-    /**
-     * Creates or updates document for the given comment.
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        frcDb.putDocument(comment);
     }
 
     /**
@@ -406,10 +393,10 @@ public final class FeedbackResponseCommentsLogic {
             }
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+            List<String> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
-            for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(commentGiver)) {
+            for (String team : teams) {
+                if (team.equals(commentGiver)) {
                     isTeamPresentInCourse = true;
                     break;
                 }

@@ -1,15 +1,16 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  ContributionStatistics,
-  ContributionStatisticsEntry,
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
-} from '../../../../../types/api-output';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { SimpleModalService } from '../../../../../services/simple-modal.service';
+import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData } from '../../../sortable-table/sortable-table.component';
-import { QuestionStatistics } from '../question-statistics';
+import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import { Sections } from '../../../../pages-help/instructor-help-page/sections';
+import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
+import {
+  ColumnData,
+  SortableTableCellData,
+} from '../../../sortable-table/sortable-table.component';
+import { ContributionQuestionStatisticsCalculation } from '../question-statistics-calculation/contribution-question-statistics-calculation';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 
@@ -22,22 +23,18 @@ import { ContributionComponent } from './contribution.component';
   styleUrls: ['./contribution-question-statistics.component.scss'],
 })
 export class ContributionQuestionStatisticsComponent
-    extends QuestionStatistics<FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails>
-    implements OnInit, OnChanges {
+  extends ContributionQuestionStatisticsCalculation
+  implements OnInit, OnChanges {
+  // enum
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
-  @Input() statistics: string = '';
   @Input() displayContributionStats: boolean = true;
-
-  emailToTeamName: Record<string, string> = {};
-  emailToName: Record<string, string> = {};
-  emailToDiff: Record<string, number> = {};
-  questionOverallStatistics?: ContributionStatistics;
-  questionStatisticsForStudent?: ContributionStatisticsEntry;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor(private modalService: NgbModal) {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
@@ -49,58 +46,6 @@ export class ContributionQuestionStatisticsComponent
   ngOnChanges(): void {
     this.parseStatistics();
     this.getTableData();
-  }
-
-  parseStatistics(): void {
-    this.emailToTeamName = {};
-    this.emailToName = {};
-
-    this.questionOverallStatistics = {
-      results: {},
-    };
-    this.questionStatisticsForStudent = {
-      claimed: 0,
-      perceived: 0,
-      claimedOthers: [],
-      perceivedOthers: [],
-    };
-
-    if (this.statistics) {
-      const statisticsObject: ContributionStatistics = JSON.parse(this.statistics);
-      if (this.isStudent) {
-        const results: ContributionStatisticsEntry[] = Object.values(statisticsObject.results);
-        if (results.length) {
-          this.questionStatisticsForStudent = results[0];
-        }
-      } else {
-        for (const response of this.responses) {
-          // the recipient email will always exist for contribution question when viewing by instructors
-          if (!response.recipientEmail) {
-            continue;
-          }
-
-          if (!this.emailToTeamName[response.recipientEmail]) {
-            this.emailToTeamName[response.recipientEmail] = response.recipientTeam;
-          }
-          if (!this.emailToName[response.recipientEmail]) {
-            this.emailToName[response.recipientEmail] = response.recipient;
-          }
-        }
-
-        this.questionOverallStatistics = statisticsObject;
-
-        for (const email of Object.keys(this.emailToName)) {
-          const statisticsForEmail: ContributionStatisticsEntry = this.questionOverallStatistics.results[email];
-          const { claimed }: { claimed: number } = statisticsForEmail;
-          const { perceived }: { perceived: number } = statisticsForEmail;
-          if (claimed < 0 || perceived < 0) {
-            this.emailToDiff[email] = -999;
-          } else {
-            this.emailToDiff[email] = perceived - claimed;
-          }
-        }
-      }
-    }
   }
 
   private getTableData(): void {
@@ -154,11 +99,8 @@ export class ContributionQuestionStatisticsComponent
     });
   }
 
-  /**
-   * Opens a modal.
-   */
-  openModal(modal: any): void {
-    this.modalService.open(modal);
+  openHelpModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+      'More info about contribution questions', SimpleModalType.NEUTRAL, modal);
   }
-
 }

@@ -15,6 +15,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents the "Courses" page for Instructors.
@@ -78,13 +79,15 @@ public class InstructorCoursesPage extends AppPage {
     public void verifyActiveCourseStatistics(CourseAttributes course, String numSections, String numTeams,
                                              String numStudents, String numUnregistered) {
         showStatistics(course.getId());
-        String[] courseDetail = { course.getId(), course.getName(), course.getCreatedAtDateString(),
+        String[] courseDetail = { course.getId(), course.getName(),
+                TimeHelper.formatInstant(course.getCreatedAt(), course.getTimeZone(), "d MMM yyyy"),
                 numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }
 
     public void verifyArchivedCoursesDetails(CourseAttributes[] courses) {
         showArchiveTable();
+        this.waitUntilAnimationFinish();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as archive courses are not sorted
@@ -94,6 +97,7 @@ public class InstructorCoursesPage extends AppPage {
 
     public void verifyDeletedCoursesDetails(CourseAttributes[] courses) {
         showDeleteTable();
+        this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as deleted courses are not sorted
@@ -150,7 +154,7 @@ public class InstructorCoursesPage extends AppPage {
         click(otherActionButton);
         click(getArchiveButton(courseId));
 
-        waitForElementStaleness(otherActionButton);
+        waitUntilAnimationFinish();
     }
 
     public void moveCourseToRecycleBin(String courseId) {
@@ -158,21 +162,21 @@ public class InstructorCoursesPage extends AppPage {
         click(otherActionButton);
         clickAndConfirm(getMoveToRecycleBinButton(courseId));
 
-        waitForElementStaleness(otherActionButton);
+        waitUntilAnimationFinish();
     }
 
     public void unarchiveCourse(String courseId) {
         WebElement unarchiveButton = getUnarchiveButton(courseId);
         click(unarchiveButton);
 
-        waitForElementStaleness(unarchiveButton);
+        waitUntilAnimationFinish();
     }
 
     public void moveArchivedCourseToRecycleBin(String courseId) {
         WebElement moveArchivedToRecycleBinButton = getMoveArchivedToRecycleBinButton(courseId);
         clickAndConfirm(moveArchivedToRecycleBinButton);
 
-        waitForElementStaleness(moveArchivedToRecycleBinButton);
+        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {
@@ -191,28 +195,28 @@ public class InstructorCoursesPage extends AppPage {
         WebElement restoreButton = getRestoreButton(courseId);
         click(restoreButton);
 
-        waitForElementStaleness(restoreButton);
+        waitUntilAnimationFinish();
     }
 
     public void deleteCourse(String courseId) {
         WebElement deleteButton = getDeleteButton(courseId);
         clickAndConfirm(deleteButton);
 
-        waitForElementStaleness(deleteButton);
+        waitUntilAnimationFinish();
     }
 
     public void restoreAllCourses() {
         WebElement restoreAllButton = getRestoreAllButton();
         click(restoreAllButton);
 
-        waitForElementStaleness(restoreAllButton);
+        waitUntilAnimationFinish();
     }
 
     public void deleteAllCourses() {
         WebElement deleteAllButton = getDeleteAllButton();
         clickAndConfirm(deleteAllButton);
 
-        waitForElementStaleness(deleteAllButton);
+        waitUntilAnimationFinish();
     }
 
     public void sortByCourseName() {

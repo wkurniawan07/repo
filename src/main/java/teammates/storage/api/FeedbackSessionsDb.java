@@ -52,11 +52,18 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                         Instant.ofEpochMilli(rangeStart.toEpochMilli()).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW))
                 .list();
 
-        // remove duplications
-        endEntities.removeAll(startEntities);
-        endEntities.addAll(startEntities);
+        List<String> startEntitiesIds = startEntities.stream()
+                .map(session -> session.getCourseId() + "::" + session.getFeedbackSessionName())
+                .collect(Collectors.toList());
 
-        return makeAttributes(endEntities);
+        List<FeedbackSession> ongoingSessions = endEntities.stream()
+                .filter(session -> {
+                    String id = session.getCourseId() + "::" + session.getFeedbackSessionName();
+                    return startEntitiesIds.contains(id);
+                })
+                .collect(Collectors.toList());
+
+        return makeAttributes(ongoingSessions);
     }
 
     /**
@@ -406,12 +413,12 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected LoadType<FeedbackSession> load() {
+    LoadType<FeedbackSession> load() {
         return ofy().load().type(FeedbackSession.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(FeedbackSession.class,
                         FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
@@ -420,7 +427,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
+    FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackSessionAttributes.valueOf(entity);

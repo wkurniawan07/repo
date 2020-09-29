@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
@@ -11,6 +12,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
@@ -20,6 +22,7 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
   selector: 'tm-grq-rgq-view-responses',
   templateUrl: './grq-rgq-view-responses.component.html',
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
+  animations: [collapseAnim],
 })
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
@@ -70,6 +73,10 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   ngOnChanges(): void {
     this.filterResponses();
+  }
+
+  trackByName(_: number, keyVal: KeyValue<string, boolean>): string {
+    return keyVal.key;
   }
 
   private filterResponses(): void {

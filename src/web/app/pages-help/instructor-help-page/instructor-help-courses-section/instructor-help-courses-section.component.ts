@@ -1,8 +1,8 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { PageScrollService } from 'ngx-page-scroll-core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { environment } from '../../../../environments/environment';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { CoursesSectionQuestions } from './courses-section-questions';
 
 /**
  * Courses section of the Instructor Help Page
@@ -11,53 +11,42 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
   selector: 'tm-instructor-help-courses-section',
   templateUrl: './instructor-help-courses-section.component.html',
   styleUrls: ['./instructor-help-courses-section.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
+  // enum
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+
   readonly supportEmail: string = environment.supportEmail;
 
-  isAddStudentsCollapsed: boolean = false;
-  isSizeLimitCollapsed: boolean = false;
-  isNoTeamsCollapsed: boolean = false;
-  isSectionsCollapsed: boolean = false;
-  isEnrollSectionsCollapsed: boolean = false;
-  isAddInstructorCollapsed: boolean = false;
-  isEditInstructorCollapsed: boolean = false;
-  isInstructorAccessCollapsed: boolean = false;
-  isPrivilegesCollapsed: boolean = false;
-  isViewStudentsCollapsed: boolean = false;
-  isChangeSectionCollapsed: boolean = false;
-  isDisappearedCourseCollapsed: boolean = false;
-  isDelStudentsCollapsed: boolean = false;
-  isArchiveCourseCollapsed: boolean = false;
-  isViewArchivedCollapsed: boolean = false;
-  isCourseUnarchiveCollapsed: boolean = false;
-  isViewDelCollapsed: boolean = false;
-  isRestoreCollapsed: boolean = false;
-  isDelCollapsed: boolean = false;
-  isRestoreAllCollapsed: boolean = false;
-  @Output() collapseStudentEditDetails: EventEmitter<boolean> = new EventEmitter<boolean>();
+  readonly questionsOrder: string[] = [
+    CoursesSectionQuestions.COURSE_ADD_STUDENTS,
+    CoursesSectionQuestions.SIZE_LIMIT,
+    CoursesSectionQuestions.NO_TEAMS,
+    CoursesSectionQuestions.SECTIONS,
+    CoursesSectionQuestions.ENROLL_SECTIONS,
+    CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR,
+    CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR,
+    CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS,
+    CoursesSectionQuestions.PRIVILEGES,
+    CoursesSectionQuestions.COURSE_VIEW_STUDENTS,
+    CoursesSectionQuestions.CHANGE_SECTION,
+    CoursesSectionQuestions.DISAPPEARED_COURSE,
+    CoursesSectionQuestions.DEL_STUDENTS,
+    CoursesSectionQuestions.COURSE_ARCHIVE,
+    CoursesSectionQuestions.COURSE_VIEW_ARCHIVED,
+    CoursesSectionQuestions.COURSE_UNARCHIVE,
+    CoursesSectionQuestions.COURSE_VIEW_DELETED,
+    CoursesSectionQuestions.COURSE_RESTORE,
+    CoursesSectionQuestions.PERM_DEL,
+    CoursesSectionQuestions.RESTORE_ALL,
+  ];
 
-  constructor(private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any) {
-    super();
+  @Output() collapseStudentEditDetails: EventEmitter<any> = new EventEmitter();
+
+  getQuestionsOrder(): string[] {
+    return this.questionsOrder;
   }
 
-  ngOnInit(): void {
-  }
-
-  /**
-   * Scrolls to an HTML element with a given target id.
-   */
-  jumpTo(target: string): boolean {
-    this.pageScrollService.scroll({
-      document: this.document,
-      scrollTarget: `#${target}`,
-      scrollOffset: 70,
-    });
-    if (target === 'student-edit-details') {
-      this.collapseStudentEditDetails.emit(true);
-    }
-    return false;
-  }
 }

@@ -224,16 +224,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Gets all students in a section of a course.
-     */
-    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        return makeAttributes(getCourseStudentEntitiesForSection(sectionName, courseId));
-    }
-
-    /**
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -400,20 +390,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 .list();
     }
 
-    private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
-        return load()
-                .filter("sectionName =", sectionName)
-                .filter("courseId =", courseId)
-                .list();
-    }
-
     @Override
-    protected LoadType<CourseStudent> load() {
+    LoadType<CourseStudent> load() {
         return ofy().load().type(CourseStudent.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(StudentAttributes entityToCreate) {
+    boolean hasExistingEntities(StudentAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(CourseStudent.class,
                         CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
@@ -422,7 +405,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     @Override
-    protected StudentAttributes makeAttributes(CourseStudent entity) {
+    StudentAttributes makeAttributes(CourseStudent entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return StudentAttributes.valueOf(entity);

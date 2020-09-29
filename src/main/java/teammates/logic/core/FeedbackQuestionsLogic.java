@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +14,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -135,30 +132,6 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
-     */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) {
-
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
-        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
-        for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
-            for (FeedbackSessionAttributes session : sessions) {
-                List<FeedbackQuestionAttributes> questions =
-                        getFeedbackQuestionsForSession(session.getFeedbackSessionName(), course.getId());
-                copiableQuestions.addAll(questions);
-            }
-        }
-
-        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes question) -> question.courseId)
-                .thenComparing(question -> question.feedbackSessionName)
-                .thenComparing(question -> question.getQuestionDetails().getQuestionTypeDisplayName())
-                .thenComparing(question -> question.getQuestionDetails().getQuestionText()));
-
-        return copiableQuestions;
-    }
-
-    /**
      * Gets a {@code List} of all questions for the given session for an
      * instructor to view/submit.
      */
@@ -211,8 +184,8 @@ public final class FeedbackQuestionsLogic {
      * Gets a {@code List} of all questions for the list of questions that an
      * instructor who is the creator of the course can view/submit.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    String feedbackSessionName, String courseId)
+    List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
+            String feedbackSessionName, String courseId)
                     throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
@@ -282,21 +255,11 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
-    @Deprecated
-    public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
+    Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
         InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
         StudentAttributes studentGiver = studentsLogic.getStudentForEmail(question.courseId, giver);
-
-        return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
-    }
-
-    @Deprecated
-    public Map<String, String> getRecipientsForQuestion(
-            FeedbackQuestionAttributes question, String giver,
-            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
-            throws EntityDoesNotExistException {
 
         Map<String, String> recipients = new HashMap<>();
 
@@ -331,12 +294,12 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(question.courseId);
-            for (TeamDetailsBundle team : teams) {
+            List<String> teams = coursesLogic.getTeamsForCourse(question.courseId);
+            for (String team : teams) {
                 // Ensure student('s team) does not evaluate own team.
-                if (!giverTeam.equals(team.name)) {
+                if (!giverTeam.equals(team)) {
                     // recipientEmail doubles as team name in this case.
-                    recipients.put(team.name, team.name);
+                    recipients.put(team, team);
                 }
             }
             break;
@@ -454,7 +417,7 @@ public final class FeedbackQuestionsLogic {
                 teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
             }
             for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamMembersTable.entrySet()) {
-                if (isInstructorGiver && instructorGiver.isAllowedForPrivilege(
+                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
@@ -647,14 +610,14 @@ public final class FeedbackQuestionsLogic {
             //fallthrough
         case TEAMS_EXCLUDING_SELF:
             try {
-                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
+                List<String> teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
 
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-                    teamList.removeIf(teamInList -> teamInList.name.equals(teamOfEntityDoingQuestion));
+                    teams.removeIf(team -> team.equals(teamOfEntityDoingQuestion));
                 }
 
-                for (TeamDetailsBundle team : teamList) {
-                    optionList.add(team.name);
+                for (String team : teams) {
+                    optionList.add(team);
                 }
 
                 optionList.sort(null);
@@ -862,8 +825,8 @@ public final class FeedbackQuestionsLogic {
         if (participantType == FeedbackParticipantType.TEAMS
                 || participantType == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
-                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(courseId);
-                return teamList.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
+                List<String> teams = coursesLogic.getTeamsForCourse(courseId);
+                return teams.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }
