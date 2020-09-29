@@ -15,7 +15,7 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(id = "isAdmin")
     private WebElement isAdminCheckBox;
 
-    @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
+    @FindBy(id = "btn-login")
     private WebElement loginButton;
 
     public DevServerLoginPage(Browser browser) {

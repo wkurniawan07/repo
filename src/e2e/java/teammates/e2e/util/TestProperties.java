@@ -30,6 +30,8 @@ public final class TestProperties {
 
     /** The directory where webdriver downloads files to. */
     public static final String TEST_DOWNLOADS_FOLDER = "src/e2e/resources/downloads";
+    /** The full path where webdriver downloads files to. */
+    public static final String TEST_DOWNLOADS_PATH;
 
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
@@ -162,6 +164,7 @@ public final class TestProperties {
             JMETER_HOME = prop.getProperty("test.jmeter.home", "").toLowerCase();
             JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
 
+            TEST_DOWNLOADS_PATH = Paths.get(TestProperties.TEST_DOWNLOADS_FOLDER).toFile().getCanonicalPath();
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }

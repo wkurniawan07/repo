@@ -125,8 +125,8 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     private void fillEnrollSpreadsheet(String[][] expectedStudentData) {
         WebElement firstCell = getEnrollSpreadsheetFirstCell();
+        scrollElementToCenterAndClick(firstCell);
         Actions actions = new Actions(browser.driver);
-        actions.click(firstCell).perform();
         for (String[] expectedRowData : expectedStudentData) {
             for (String expectedCellData : expectedRowData) {
                 actions.sendKeys(expectedCellData + Keys.TAB).perform();

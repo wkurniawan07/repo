@@ -177,6 +177,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Verifies downloaded file has correct fileName and contains expected content.
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
+        if (TestProperties.BROWSER_SAUCELABS.equals(TestProperties.BROWSER)) {
+            return;
+        }
         String filePath = getTestDownloadsFolder() + expectedFileName;
         int retryLimit = 5;
         boolean actual = Files.exists(Paths.get(filePath));

@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -37,6 +36,24 @@ import teammates.test.FileHelper;
 public class Browser {
 
     private static final String PAGE_LOAD_SCRIPT;
+    private static final Map<String, Boolean> FIREFOX_PREFS_BOOLEAN = new HashMap<>();
+    private static final Map<String, Integer> FIREFOX_PREFS_INT = new HashMap<>();
+    private static final Map<String, String> FIREFOX_PREFS_STRING = new HashMap<>();
+    private static final Map<String, Object> CHROME_PREFS = new HashMap<>();
+
+    static {
+        // Allow CSV files to be download automatically, without a download popup.
+        // This method is used because Selenium cannot directly interact with the download dialog.
+        // Taken from http://stackoverflow.com/questions/24852709
+        FIREFOX_PREFS_BOOLEAN.put("browser.download.panel.shown", false);
+        FIREFOX_PREFS_STRING.put("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
+        FIREFOX_PREFS_STRING.put("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
+        FIREFOX_PREFS_INT.put("browser.download.folderList", 2);
+        FIREFOX_PREFS_STRING.put("browser.download.dir", TestProperties.TEST_DOWNLOADS_PATH);
+
+        CHROME_PREFS.put("download.default_directory", TestProperties.TEST_DOWNLOADS_PATH);
+        CHROME_PREFS.put("profile.default_content_settings.popups", 0);
+    }
 
     static {
         try {
@@ -139,14 +156,6 @@ public class Browser {
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
-        String downloadPath;
-        try {
-            downloadPath = new File(TestProperties.TEST_DOWNLOADS_FOLDER).getCanonicalPath();
-            System.out.println("Download path: " + downloadPath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         String browser = TestProperties.BROWSER;
         if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
             System.out.println("Using Firefox with driver path: " + TestProperties.GECKODRIVER_PATH);
@@ -171,14 +180,9 @@ public class Browser {
                 }
             }
 
-            // Allow CSV files to be download automatically, without a download popup.
-            // This method is used because Selenium cannot directly interact with the download dialog.
-            // Taken from http://stackoverflow.com/questions/24852709
-            profile.setPreference("browser.download.panel.shown", false);
-            profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
-            profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
-            profile.setPreference("browser.download.folderList", 2);
-            profile.setPreference("browser.download.dir", downloadPath);
+            FIREFOX_PREFS_BOOLEAN.forEach((key, value) -> profile.setPreference(key, value));
+            FIREFOX_PREFS_INT.forEach((key, value) -> profile.setPreference(key, value));
+            FIREFOX_PREFS_STRING.forEach((key, value) -> profile.setPreference(key, value));
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
             return new FirefoxDriver(options);
@@ -188,12 +192,8 @@ public class Browser {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
 
-            Map<String, Object> chromePrefs = new HashMap<>();
-            chromePrefs.put("download.default_directory", downloadPath);
-            chromePrefs.put("profile.default_content_settings.popups", 0);
             ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("prefs", chromePrefs);
-            options.addArguments("--allow-file-access-from-files");
+            options.setExperimentalOption("prefs", CHROME_PREFS);
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
             } else {
@@ -217,10 +217,14 @@ public class Browser {
             switch (browserName) {
             case "firefox":
                 browserOpts = new FirefoxOptions();
+                FIREFOX_PREFS_BOOLEAN.forEach((key, value) -> ((FirefoxOptions) browserOpts).addPreference(key, value));
+                FIREFOX_PREFS_INT.forEach((key, value) -> ((FirefoxOptions) browserOpts).addPreference(key, value));
+                FIREFOX_PREFS_STRING.forEach((key, value) -> ((FirefoxOptions) browserOpts).addPreference(key, value));
                 break;
             case "chrome":
                 browserOpts = new ChromeOptions();
                 ((ChromeOptions) browserOpts).setExperimentalOption("w3c", true);
+                ((ChromeOptions) browserOpts).setExperimentalOption("prefs", CHROME_PREFS);
                 break;
             case "edge":
                 browserOpts = new EdgeOptions();
