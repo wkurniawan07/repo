@@ -121,24 +121,24 @@ jobs:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="chrome; latest; Windows 10"
       script: ./e2e-saucelabs.sh
-    - name: "Firefox - Windows 10"
+    - name: "Chrome - Mac OS Catalina"
+      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      addons:
+        sauce_connect: true
+      before_script: export SAUCELABS_SETTINGS="chrome; latest; macOS 10.15"
+      script: ./e2e-saucelabs.sh
+    - stage: "E2E Tests - 2"
+      name: "Firefox - Windows 10"
       if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="firefox; latest; Windows 10"
       script: ./e2e-saucelabs.sh
-    - stage: "E2E Tests - 2"
-      name: "Chrome - High Sierra"
+    - name: "Firefox - Mac OS Catalina"
       if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
-      before_script: export SAUCELABS_SETTINGS="chrome; latest; macOS 10.13"
-      script: ./e2e-saucelabs.sh
-    - name: "Firefox - High Sierra"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
-      addons:
-        sauce_connect: true
-      before_script: export SAUCELABS_SETTINGS="firefox; latest; macOS 10.13"
+      before_script: export SAUCELABS_SETTINGS="firefox; latest; macOS 10.15"
       script: ./e2e-saucelabs.sh
     - stage: "E2E Tests - 3"
       name: "Edge - Windows 10"
@@ -147,9 +147,9 @@ jobs:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="edge; latest; Windows 10"
       script: ./e2e-saucelabs.sh
-    - name: "Safari - High Sierra"
+    - name: "Edge - Mac OS Catalina"
       if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
-      before_script: export SAUCELABS_SETTINGS="safari; latest; macOS 10.13"
+      before_script: export SAUCELABS_SETTINGS="edge; latest; macOS 10.15"
       script: ./e2e-saucelabs.sh
