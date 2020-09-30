@@ -141,9 +141,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         }
     }
 
-    // Does not work if first cell is not visible
     private WebElement getEnrollSpreadsheetFirstCell() {
-        setWindowSize(1000, 1000);
         return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 

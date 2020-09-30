@@ -8,6 +8,7 @@ branches:
   only:
     - master
     - release
+    - saucelabs-2
 
 notifications:
   email: false
@@ -68,7 +69,7 @@ jobs:
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - name: "E2E Tests - Firefox"
-      if: branch != master OR type != push OR env(SAUCE_ACCESS_KEY) IS blank OR env(SAUCE_USERNAME) IS blank
+      if: branch = saucelabs-2 OR type != push OR env(SAUCE_ACCESS_KEY) IS blank OR env(SAUCE_USERNAME) IS blank
       addons:
         firefox: "76.0"
       services:
@@ -86,7 +87,7 @@ jobs:
       script:
         - ./gradlew e2eTests
     - name: "E2E Tests - Chrome"
-      if: branch != master OR type != push OR env(SAUCE_ACCESS_KEY) IS blank OR env(SAUCE_USERNAME) IS blank
+      if: branch = saucelabs-2 OR type != push OR env(SAUCE_ACCESS_KEY) IS blank OR env(SAUCE_USERNAME) IS blank
       addons:
         chrome: stable
       services:
@@ -106,7 +107,7 @@ jobs:
         - ./gradlew e2eTests
     - stage: "Prepare for E2E Tests"
       name: "Prepare for E2E Tests"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       script:
         - ./gradlew createConfigs testClasses generateTypes
         - npm ci
@@ -116,39 +117,39 @@ jobs:
         - cp -r src/main/webapp/. angular-build
     - stage: "E2E Tests - 1"
       name: "Chrome - Windows 10"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="chrome; latest; Windows 10"
       script: ./e2e-saucelabs.sh
     - name: "Chrome - Mac OS Catalina"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="chrome; latest; macOS 10.15"
       script: ./e2e-saucelabs.sh
     - stage: "E2E Tests - 2"
       name: "Firefox - Windows 10"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="firefox; latest; Windows 10"
       script: ./e2e-saucelabs.sh
     - name: "Firefox - Mac OS Catalina"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="firefox; latest; macOS 10.15"
       script: ./e2e-saucelabs.sh
     - stage: "E2E Tests - 3"
       name: "Edge - Windows 10"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="edge; latest; Windows 10"
       script: ./e2e-saucelabs.sh
     - name: "Edge - Mac OS Catalina"
-      if: branch = master AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
+      if: branch = saucelabs-2 AND type = push AND env(SAUCE_ACCESS_KEY) IS present AND env(SAUCE_USERNAME) IS present
       addons:
         sauce_connect: true
       before_script: export SAUCELABS_SETTINGS="edge; latest; macOS 10.15"

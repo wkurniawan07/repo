@@ -40,6 +40,7 @@ public class InstructorHomePage extends AppPage {
         fillTextBox(searchBar, keyword);
         click(searchButton);
         waitForPageToLoad(true);
+        waitUntilAnimationFinish();
         return changePageType(InstructorSearchPage.class);
     }
 
