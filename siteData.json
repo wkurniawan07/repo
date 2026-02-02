@@ -198,6 +198,7 @@
       "headings": {
         "e2e-testing": "E2E Testing",
         "what-is-e2e-testing": "What is E2E Testing?",
+        "prerequisites-for-local-testing": "Prerequisites for Local Testing",
         "running-e2e-tests": "Running E2E tests",
         "configuring-browsers-for-e2e-testing": "Configuring browsers for E2E Testing",
         "running-the-tests": "Running the tests",
@@ -206,7 +207,8 @@
         "page-object-pattern": "Page Object Pattern",
         "creating-page-objects": "Creating Page Objects",
         "things-to-avoid-when-writing-e2e-tests": "Things to avoid when writing E2E tests",
-        "faq": "FAQ"
+        "faq": "FAQ",
+        "troubleshooting": "Troubleshooting"
       },
       "headingKeywords": {}
     },
@@ -270,11 +272,11 @@
       "title": "Performance Testing",
       "headings": {
         "performance-testing": "Performance Testing",
-        "creating-performance-tests": "Creating Performance Tests",
         "running-performance-tests": "Running Performance Tests",
         "using-gradle": "Using Gradle",
         "using-the-command-line": "Using the Command Line",
-        "using-jmeter-gui": "Using JMeter GUI"
+        "using-jmeter-gui": "Using JMeter GUI",
+        "creating-performance-tests": "Creating Performance Tests"
       },
       "headingKeywords": {}
     },
@@ -341,8 +343,7 @@
         "how-do-we-use-snapshot-testing": "How do we use Snapshot Testing?",
         "when-do-we-use-snapshot-testing": "When do we use Snapshot Testing?",
         "when-do-we-not-use-snapshot-testing": "When do we NOT use Snapshot Testing?",
-        "best-practices": "Best Practices",
-        "final-notes": "Final Notes"
+        "best-practices": "Best Practices"
       },
       "headingKeywords": {}
     },
@@ -375,10 +376,13 @@
       "headings": {
         "unit-testing": "Unit Testing",
         "what-is-unit-testing": "What is Unit Testing?",
-        "writing-unit-tests": "Writing Unit Tests",
+        "running-unit-tests": "Running Unit Tests",
+        "frontend-tests": "Frontend tests",
+        "backend-tests": "Backend tests",
+        "creating-unit-tests": "Creating Unit Tests",
         "general-guidelines": "General guidelines",
-        "frontend": "Frontend",
-        "backend": "Backend"
+        "frontend-tests-2": "Frontend tests",
+        "backend-tests-2": "Backend tests"
       },
       "headingKeywords": {}
     }
